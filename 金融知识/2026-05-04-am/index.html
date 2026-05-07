@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>损失厌恶：为什么盈利1万块的快乐，抵不过亏损1000块的痛苦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --c: #C9544E; --c-dark: #A33D35; --c-light: #F7F0EF;
+      --bg: #FFFFFF; --bg-alt: #F7F5F4; --text: #1A1A1A;
+      --text-muted: #6B6B6B; --border: #E8E5E3;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 680px; margin: 0 auto; padding: 80px 32px 100px; }
+    .kicker { font-family: var(--mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+    h1 { font-family: Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .meta-bar { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 20px 0 48px; }
+    .meta-tag { font-family: var(--mono); font-size: 9px; color: var(--c-dark); background: var(--c-light); padding: 3px 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .meta-period { font-family: var(--mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; }
+    h2 { font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: var(--text); margin: 52px 0 20px; letter-spacing: -0.01em; }
+    h3 { font-family: Georgia, serif; font-size: 17px; font-weight: 600; color: var(--text); margin: 32px 0 14px; }
+    p { margin-bottom: 20px; color: #2D2D2D; }
+    p.intro { font-size: 16px; color: #4A4A4A; line-height: 1.8; margin-bottom: 32px; }
+    .highlight-box { background: var(--bg-alt); border-left: 3px solid var(--c); padding: 20px 24px; margin: 32px 0; }
+    .highlight-box p { margin-bottom: 0; color: #3A3A3A; }
+    .quote-box { background: var(--bg-alt); border: 1px solid var(--border); padding: 24px 28px; margin: 36px 0; text-align: center; }
+    .quote-box .quote { font-family: Georgia, serif; font-size: 18px; font-style: italic; color: var(--text); line-height: 1.6; margin-bottom: 12px; }
+    .quote-box .attr { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em; }
+    .case-card { background: var(--bg-alt); border: 1px solid var(--border); padding: 22px 24px; margin: 20px 0; }
+    .case-card .case-title { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .case-card .case-title span { color: var(--c); }
+    .case-card p { margin-bottom: 0; font-size: 14px; }
+    ul { margin: 12px 0 20px 0; padding-left: 0; list-style: none; }
+    ul li { padding: 6px 0 6px 20px; position: relative; color: #2D2D2D; }
+    ul li::before { content: ''; position: absolute; left: 0; top: 15px; width: 6px; height: 1px; background: var(--c); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+    .stat-row { display: flex; gap: 24px; margin: 28px 0; }
+    .stat-block { flex: 1; background: var(--bg-alt); border: 1px solid var(--border); padding: 20px 22px; text-align: center; }
+    .stat-block .stat-num { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--c); margin-bottom: 6px; }
+    .stat-block .stat-label { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .takeaway { background: var(--c-light); border: 1px solid #EAD8D7; padding: 24px 28px; margin-top: 48px; }
+    .takeaway-label { font-family: var(--mono); font-size: 10px; color: var(--c-dark); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+    .takeaway p { font-size: 14px; color: #3A2A29; margin-bottom: 0; }
+    .takeaway ul { margin-top: 12px; }
+    .takeaway ul li { color: #3A2A29; }
+    .footer-line { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-align: center; padding-top: 40px; border-top: 1px solid var(--border); margin-top: 56px; letter-spacing: 0.05em; }
+    @media (max-width: 580px) { h1 { font-size: 26px; } .container { padding: 48px 20px 72px; } .stat-row { flex-direction: column; gap: 12px; } }
+  </style>
+</head>
+<div style="max-width:800px;margin:0 auto;padding:40px 24px 0;">
+  <a href="/金融知识/index.html" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#9B9B9B;text-decoration:none;font-family:Inter,sans-serif;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    金融知识
+  </a>
+</div>
+
+<body>
+<div class="container">
+  <div class="kicker">行为金融学 · 第 3 期</div>
+  <h1>损失厌恶：为什么盈利1万块的快乐，抵不过亏损1000块的痛苦</h1>
+  <div class="meta-bar">
+    <span class="meta-tag">理论篇</span>
+    <span class="meta-period">2026.05.04 · 上午篇</span>
+  </div>
+
+  <p class="intro">在股市中，有一个比任何技术指标都更准确地预测你行为的因子：你的本能。研究表明，大多数投资者对损失的厌恶程度，是对同等收益喜爱程度的2到2.5倍。这个数字，解释了为什么你在账面上亏损时坐立不安，却能心安理得地在盈利时过早离场。</p>
+
+  <h2>一个颠覆认知的心理学发现</h2>
+  <p>1979年，丹尼尔·卡尼曼（Daniel Kahneman）与阿莫斯·特沃斯基（Amos Tversky）在论文《前景理论：风险决策分析》中提出了一个改变经济学根基的发现：人类对损失的厌恶，远超对等量收益的偏好。这一现象被命名为"损失厌恶"（Loss Aversion），后来成为行为经济学最核心的概念之一。</p>
+  <p>他们的实验设计极为精妙：让受试者在两个选项间选择——A选项是确定获得900元，B选项是有90%概率获得1000元（10%概率获得0元）。按传统经济学逻辑，风险规避者会选择A，风险偏好者会选择B。然而实验结果出人意料：大多数受试者选择了确定的900元，即便B选项的期望值（900元）相同。这说明人们对损失的厌恶，使得他们在面对"可能损失"时表现得极其保守。</p>
+
+  <div class="stat-row">
+    <div class="stat-block">
+      <div class="stat-num">2.5x</div>
+      <div class="stat-label">损失厌恶系数</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">60%</div>
+      <div class="stat-label">过早止损比例</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">-8%</div>
+      <div class="stat-label">年均收益影响</div>
+    </div>
+  </div>
+
+  <p>为了精确测量这个偏好不对称的程度，卡尼曼让另一组受试者在"确定损失900元"与"90%概率损失1000元"之间选择。结果显示，同样是风险规避的偏好，在损失框架下，人们开始愿意接受更大风险——即宁愿赌一把90%的概率损失1000元，也不愿接受确定的900元损失。这说明，同一个理性人，在盈利框架下极度厌恶风险，在损失框架下却可能追逐风险——完全取决于参照点的位置。</p>
+
+  <div class="quote-box">
+    <div class="quote">"损失造成的痛苦，大约是等量收益带来快乐的两到两倍半。"</div>
+    <div class="attr">— Daniel Kahneman, 《思考，快与慢》</div>
+  </div>
+
+  <h2>股市中损失厌恶的三种经典表现</h2>
+
+  <h3>表现一：截断利润，让亏损奔跑</h3>
+  <p>这是损失厌恶在投资行为中最普遍的体现。投资者面对盈利时，急于"锁定利润"——小幅上涨便卖出，落袋为安；而面对亏损时，却坚定持有，期待"扳回本钱"——哪怕基本面已经恶化，仍不愿承认损失。</p>
+  <p>行为金融学将这种现象命名为"处置效应"（Disposition Effect）。Terrance Odean在对美国券商数据的研究中发现，个人投资者卖出的盈利股票数量，平均是卖出亏损股票数量的1.5倍。更严峻的是，这种行为模式导致投资者系统性地卖出好股票、持有坏股票，长期而言严重损害组合回报。</p>
+
+  <h3>表现二：仓位决定情绪，而非信息</h3>
+  <p>损失厌恶还会导致"短视损失厌恶"（Myopic Loss Aversion）——投资者过度关注短期波动，将短期亏损带来的情绪痛苦权重放得过高，以至于忽视了长期潜在回报。</p>
+  <p>Benartzi和Thaler在1995年的研究中要求受试者在一系列投资组合间选择：风险更高的股票组合长期回报更优，但短期波动更大；债券组合回报稳定但长期增长有限。结果显示，当被要求频繁查看组合表现时，受试者显著偏好低风险、低回报的组合——因为频繁查看放大了短期损失带来的情绪冲击，使其做出偏离长期最优的选择。</p>
+
+  <h3>表现三：市场恐慌与踩踏的幕后推手</h3>
+  <p>在极端市场环境下，损失厌恶会在群体层面引发连锁反应。当市场快速下跌时，损失厌恶驱动的止损卖出会形成抛压，导致价格进一步下跌，触发更多止损——这一循环在2015年A股股灾、2020年3月全球股市熔断中反复上演。</p>
+  <p>理解这一点，有助于区分两种完全不同的市场行为：正常回调中的技术性止损（理性风险管理）vs. 情绪性踩踏（损失厌恶驱动的非理性恐慌）。前者有合理逻辑，后者只有心理驱动。</p>
+
+  <hr class="divider">
+
+  <h2>损失厌恶的神经机制：为什么你控制不住</h2>
+  <p>损失厌恶不仅是一种心理现象，它有明确的神经基础。神经经济学家通过fMRI扫描发现，当大脑预期将发生损失时，杏仁核（Amygdala）——大脑中处理恐惧与焦虑的核心区域——活跃度显著上升，同时前额叶皮层（负责理性决策和风险评估）的活跃度受到抑制。</p>
+  <p>更关键的是，这种神经反应的速度远快于理性分析。当你的投资组合单日下跌5%时，杏仁核在几百毫秒内就会发出警报，而前额叶皮层要完成"这只股票基本面没有问题，应继续持有"的理性判断，可能需要几秒甚至更长时间。在这场速度竞赛中，杏仁核几乎永远先发制人。</p>
+  <p>此外，多巴胺系统与损失厌恶之间存在有趣的交互：大脑对"接近获得却最终失去"的惩罚程度，显著高于对"从未获得"的惩罚。这意味着当你持有的股票从盈利变成亏损——即从"接近获得"跌回"原点"——情绪冲击尤为强烈，这就是为什么"从盈转亏"比"持续持有亏损"更让人难以忍受。</p>
+
+  <h2>四步对冲损失厌恶的情绪绑架</h2>
+
+  <div class="case-card">
+    <div class="case-title">STEP <span>01</span> — 重新定义参照点</div>
+    <p>损失厌恶的核心是参照点依赖。你的参照点不应该是买入价，而应该是公司的内在价值。将参照点从"成本价"切换到"价值线"，可以显著降低亏损感知——亏损与否，取决于当前价格是否低于价值，而非是否低于买入价。</p>
+  </div>
+
+  <div class="case-card">
+    <div class="case-title">STEP <span>02</span> — 预设卖出规则，固化决策</div>
+    <p>在买入之前，写下你的止损/止盈规则并公示（如"股价跌破关键支撑位减仓30%"）。规则应在情绪平稳时制定，在触发时强制执行。这样，当市场下跌触发止损时，你的决策锚已经从"损失厌恶驱使的回避"转变为"规则要求的执行"。</p>
+  </div>
+
+  <div class="case-card">
+    <div class="case-title">STEP <span>03</span> — 延长检视周期，降低短视效应</div>
+    <p>如果你每天查看账户，损失厌恶会将每日波动放大为每日痛苦。将检视频率降至每周甚至每月，让时间平滑情绪冲击。研究表明，将检视周期从"日"拉长到"季度"，投资者的风险承受能力会系统性提高，组合配置也更倾向于长期回报更优的权益类资产。</p>
+  </div>
+
+  <div class="case-card">
+    <div class="case-title">STEP <span>04</span> — 用"盈亏同源"逻辑重构损失认知</div>
+    <p>损失厌恶之所以强大，因为它将损失感知为"失败"。但成熟的交易者知道：如果你有一个正期望值的交易系统，那么止损出局是系统运行的必要成本，而非个人失败。将损失重框（Reframe）为"做对决策但系统成本"，可以从根本上降低损失的情绪权重。</p>
+  </div>
+
+  <h2>从个体偏差到市场均衡：损失厌恶的系统意义</h2>
+  <p>损失厌恶不仅是个人层面的认知偏差，它在资产定价中也有系统性体现。传统金融学用"有效市场"来解释股价，但行为金融学发现：正是因为市场上存在大量受损失厌恶驱动的投资者，定价才会在短期内出现系统性偏差——亏损股被低估（因为持有者不愿卖），盈利股被高估（因为持有者急于兑现）。</p>
+  <p>这种定价偏差，恰恰为不受情绪驱动的理性投资者提供了机会。价值投资的有效性，很大程度上建立在多数人的损失厌恶之上——正是因为他人的非理性抛售，才让真正有价值的资产出现令人不适的低价。</p>
+
+  <div class="highlight-box">
+    <p><strong>一个值得警惕的日常场景：</strong>你持有某ETF，成本100元，当前价格98元，基本面无变化，但你感到明显焦虑，频繁查看行情；当同一ETF涨至102元时，你迅速止盈，觉得"赚到了"。表面上，你执行了"低买高卖"；实际上，你系统性地在小幅盈利时放弃了可能更大的上涨空间，并在微小亏损时就已经开始承担情绪成本。这是损失厌恶最常见的日常陷阱。</p>
+  </div>
+
+  <div class="takeaway">
+    <div class="takeaway-label">核心要点</div>
+    <p>损失厌恶是人类进化遗留的情绪本能，无法消除，但可以通过系统设计加以对冲：</p>
+    <ul>
+      <li>参照点从"成本价"切换到"内在价值"，亏损感知随之改变</li>
+      <li>卖出规则在冷静时预设，触发时强制执行，排除情绪干扰</li>
+      <li>降低账户查看频率，让时间过滤短期波动的情绪冲击</li>
+      <li>将止损重框为系统成本而非个人失败，从根本上削弱损失厌恶的影响</li>
+      <li>利用他人损失厌恶造成的定价偏差，寻找真正的超额收益机会</li>
+    </ul>
+  </div>
+
+  <div class="footer-line">每日金融知识 · 行为金融学系列 · 2026.05.04</div>
+</div>
+</body>
+</html>
