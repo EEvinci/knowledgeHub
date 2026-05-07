@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI时代的软件形态 · 文段解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+.container { max-width: 720px; margin: 0 auto; padding: 72px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 48px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.article-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.summary-box { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0 36px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.content { font-size: 15px; }
+.content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }
+.content h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+.content p { margin-bottom: 16px; color: var(--text); }
+.content ul, .content ol { margin: 0 0 20px 0; padding-left: 20px; }
+.content li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.7; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.content th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px; border-bottom: 2px solid var(--border); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+.content tr:last-child td { border-bottom: none; }
+.content strong { color: var(--text); font-weight: 600; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+.article-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); background: var(--card-bg); }
+.footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/文段解析/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+  <header class="header">
+    <div class="section-label">文段解析 · AI Coding</div>
+    <h1>AI时代的软件形态</h1>
+    <div class="article-meta">2026-05-07 · 微博 · AI Coding</div>
+  </header>
+  <div class="summary-box">AI 时代的软件不只是代码，而是代码 + 上下文 + 行为约束。CLAUDE.md 等项目级约束文件正在成为软件的「第一层」。</div>
+  <div class="content">
+    <h2>AI 时代的软件形态</h2><p>不只是代码本身，而是代码 + 上下文 + 行为约束。</p><h2>软件的三层结构</h2><h3>第一层：代码本身</h3><p>函数、类、模块——传统意义上的软件。</p><h3>第二层：上下文</h3><p>项目结构、业务逻辑、历史决策——让代码有意义的背景信息。</p><h3>第三层：行为约束</h3><p>CLAUDE.md、cursorrules、.github/copilot-instructions.md——告诉 AI 怎么理解和执行代码的规则。</p><h2>CLAUDE.md 正在成为「软件的另一层」</h2><p>越来越多的项目有了 CLAUDE.md。它不是文档，而是给 AI 的操作手册。</p><p>「测试命令是什么」「部署流程怎么走」「哪些代码不能动」「我们用什么代码风格」——这些以前需要新人翻几个月文档才能知道的事，CLAUDE.md 几秒钟就能告诉 AI。</p><h2>一个预测</h2><p>未来，CLAUDE.md 会和代码一起被版本管理。一个新开发者加入项目，第一件事不是读代码，而是让 AI 读 CLAUDE.md 和代码，然后用自然语言问问题。</p><p>这不是取代人类学习，而是让人类从「记住细节」中解放出来，专注于「理解架构」。</p>
+  </div>
+  <div class="tag-row">
+    <span class="article-tag">AI Coding</span><span class="article-tag">软件形态</span><span class="article-tag">趋势</span>
+  </div>
+  <footer class="footer">
+    <a href="/文段解析/index.html">文段解析</a>
+    <span style="margin:0 8px;">·</span>
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
