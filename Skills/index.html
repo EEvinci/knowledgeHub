@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills 管理 · Lavendulin Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 15px; }
+.container { max-width: 860px; margin: 0 auto; padding: 64px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 40px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 28px; font-weight: 600; }
+.subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.section-block { margin-bottom: 36px; }
+.section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.skill-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 20px;
+  cursor: pointer; text-decoration: none; color: var(--text);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+}
+.skill-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+  border-color: rgba(201,84,78,0.35);
+  text-decoration: none; color: var(--text);
+}
+.skill-info { flex: 1; }
+.skill-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+.skill-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.skill-tag { font-size: 10px; padding: 2px 7px; border-radius: 4px; background: var(--primary-light); color: var(--primary); font-weight: 500; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.skill-arrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); flex-shrink: 0; margin-top: 2px; }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-start; justify-content: center; padding: 32px 16px; overflow-y: auto; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--card-bg); border-radius: 18px; max-width: 720px; width: 100%; margin: 40px auto; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.2); }
+.modal-head { padding: 32px 36px 24px; border-bottom: 1px solid var(--border); }
+.modal-close { position: absolute; top: 20px; right: 24px; background: none; border: none; cursor: pointer; font-size: 22px; color: var(--text-muted); line-height: 1; padding: 4px; }
+.modal-close:hover { color: var(--primary); }
+.modal-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.modal-name { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+.modal-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.modal-body { padding: 28px 36px 36px; display: flex; flex-direction: column; gap: 28px; }
+.modal-section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); font-weight: 500; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.modal-section-content { font-size: 13px; color: var(--text-secondary); line-height: 1.85; }
+.modal-section-content strong { color: var(--text); }
+.modal-section-content code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: var(--bg); border: 1px solid var(--border); padding: 1px 5px; border-radius: 4px; color: var(--text); }
+.modal-code { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); line-height: 1.8; white-space: pre-wrap; margin-top: 8px; }
+.modal-flow { display: flex; flex-direction: column; gap: 10px; }
+.flow-step { display: flex; gap: 12px; align-items: flex-start; }
+.flow-num { width: 20px; height: 20px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
+.flow-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; flex: 1; }
+.flow-text strong { color: var(--text); }
+.footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) {
+  .container { padding: 40px 20px 80px; }
+  .modal { margin: 0; border-radius: 18px 18px 0 0; min-height: 80vh; }
+  .modal-head { padding: 24px 20px 20px; }
+  .modal-body { padding: 24px 20px 32px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Lavendulin Hub
+  </a>
+  <header class="header">
+    <div class="section-label">Skills</div>
+    <h1>Skills 管理</h1>
+    <p class="subtitle">共 13 个可用 Skills，点击查看完整详情</p>
+  </header>
+
+  <div class="section-block">
+    <div class="section-title">workflow</div>
+    <div class="list">
+      <div class="skill-card" onclick="showSkill('html-report-delivery')">
+        <div class="skill-info"><div class="skill-name">html-report-delivery</div><div class="skill-desc">网页报告制作与交付规范 — 从内容到上线的标准流程</div></div>
+        <span class="skill-tag">workflow</span>
+        <span class="skill-arrow">→</span>
+      </div>
+      <div class="skill-card" onclick="showSkill('ai-daily-report')">
+        <div class="skill-info"><div class="skill-name">ai-daily-report</div><div class="skill-desc">每日 AI 热点报告自动化流水线</div></div>
+        <span class="skill-tag">workflow</span>
+        <span class="skill-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">knowledge</div>
+    <div class="list">
+      <div class="skill-card" onclick="showSkill('knowledge-web-publication')">
+        <div class="skill-info"><div class="skill-name">knowledge-web-publication</div><div class="skill-desc">内容生成后自动网页化与发布的完整流程</div></div>
+        <span class="skill-tag">knowledge</span>
+        <span class="skill-arrow">→</span>
+      </div>
+      <div class="skill-card" onclick="showSkill('knowledge-index-manager')">
+        <div class="skill-info"><div class="skill-name">knowledge-index-manager</div><div class="skill-desc">知识链接索引的维护规范</div></div>
+        <span class="skill-tag">knowledge</span>
+        <span class="skill-arrow">→</span>
+      </div>
+      <div class="skill-card" onclick="showSkill('llm-wiki-compilation')">
+        <div class="skill-info"><div class="skill-name">llm-wiki-compilation</div><div class="skill-desc">LLM Wiki 模式应用于个人知识体系的具体执行流程</div></div>
+        <span class="skill-tag">knowledge</span>
+        <span class="skill-arrow">→</span>
+      </div>
+      <div class="skill-card" onclick="showSkill('karpathy-llm-wiki-pattern')">
+        <div class="skill-info"><div class="skill-name">karpathy-llm-wiki-pattern</div><div class="skill-desc">Karpathy LLM Wiki 模式——用LLM编译和维护个人知识库</div></div>
+        <span class="skill-tag">knowledge</span>
+        <span class="skill-arrow">→</span>
+      </div>
+      <div class="skill-card" onclick="showSkill('skill-extraction-from-conversation')">
+        <div class="skill-info"><div class="skill-name">skill-extraction-from-conversation</div><div class="skill-desc">从对话中自动提取思维模式并生成 Skill 的方法论</div></div>
+        <span class="skill-tag">knowledge</span>
+        <span class="skill-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">finance</div>
+    <div class="list">
+      <div class="skill-card" onclick="showSkill('a-stock-short-term-trading')">
+        <div class="skill-info"><div class="skill-name">a-stock-short-term-trading</div><div class="skill-desc">A股短线交易全流程框架，覆盖选股→买入→卖出→纪律红线→心理防线</div></div>
+        <span class="skill-tag">finance</span>
+        <span class="skill-arrow">→</span>
+      </div>
+      <div class="skill-card" onclick="showSkill('hot-sector-signal-collection')">
+        <div class="skill-info"><div class="skill-name">hot-sector-signal-collection</div><div class="skill-desc">A股热点板块信息收集与信号汇总，用于选股前的信息广度收集</div></div>
+        <span class="skill-tag">finance</span>
+        <span class="skill-arrow">→</span>
+      </div>
+      <div class="skill-card" onclick="showSkill('trading-discipline-enforcer')">
+        <div class="skill-info"><div class="skill-name">trading-discipline-enforcer</div><div class="skill-desc">A股短线纪律执行与心理防线，用于约束交易行为、对抗人性弱点</div></div>
+        <span class="skill-tag">finance</span>
+        <span class="skill-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">teaching</div>
+    <div class="list">
+      <div class="skill-card" onclick="showSkill('course-feedback')">
+        <div class="skill-info"><div class="skill-name">course-feedback</div><div class="skill-desc">课程反馈写作规范，面向家长</div></div>
+        <span class="skill-tag">teaching</span>
+        <span class="skill-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">design</div>
+    <div class="list">
+      <div class="skill-card" onclick="showSkill('claude-design-language')">
+        <div class="skill-info"><div class="skill-name">claude-design-language</div><div class="skill-desc">Claude/Anthropic Design Language — 网页风格规范</div></div>
+        <span class="skill-tag">design</span>
+        <span class="skill-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">im-setup</div>
+    <div class="list">
+      <div class="skill-card" onclick="showSkill('im-setup')">
+        <div class="skill-info"><div class="skill-name">im-setup</div><div class="skill-desc">IM/消息平台连接和配置（飞书、微信、Telegram等）</div></div>
+        <span class="skill-tag">im-setup</span>
+        <span class="skill-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div class="modal-tag" id="modalTag"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+    </div>
+    <div class="modal-body">
+      <div id="modalSceneSection">
+        <div class="modal-section-title">使用场景</div>
+        <div class="modal-section-content" id="modalScene"></div>
+      </div>
+      <div id="modalBgSection">
+        <div class="modal-section-title">设计背景</div>
+        <div class="modal-section-content" id="modalBg"></div>
+      </div>
+      <div id="modalFlowSection">
+        <div class="modal-section-title">执行流程</div>
+        <div class="modal-flow" id="modalFlow"></div>
+      </div>
+      <div id="modalPromptSection">
+        <div class="modal-section-title">核心提示词</div>
+        <div class="modal-code" id="modalPrompt"></div>
+      </div>
+      <div id="modalExtraSection">
+        <div class="modal-section-title">补充说明</div>
+        <div class="modal-section-content" id="modalExtra"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const skills = {
+
+"html-report-delivery": {
+  tag: "workflow", name: "html-report-delivery",
+  desc: "网页报告制作与交付规范 — 从内容到上线的标准流程",
+  scene: "用户要求生成报告/分析/总结类网页，或布置任何需要做成 HTML 页面的任务时触发。",
+  bg: "为解决「每次都往 /workspace/dist/ 写多个 HTML 导致互相覆盖、URL 混乱」而建立。每个任务独立目录，确保可追溯和不被覆盖。",
+  flow: [
+    { num: "1", text: "<strong>写内容</strong> → 保存 Markdown 源文件到独立目录" },
+    { num: "2", text: "<strong>生成 HTML</strong> → 写到 <code>/workspace/{项目名}/index.html</code>，按 Claude Design Language 规范" },
+    { num: "3", text: "<strong>Deploy</strong> → <code>mcp_matrix_deploy(dist_dir=\"/workspace/{项目目录}\", project_name=\"{项目名}\")</code>" },
+    { num: "4", text: "<strong>返回结果</strong> → 只给用户这个项目的独立 URL，不混入其他项目" }
+  ],
+  prompt: "设计规范：\n- 配色：赤陶色 #C9544E + 黑白灰，不超过 3 种颜色\n- 禁止 emoji\n- 字体：Georgia（标题）+ Inter（正文）+ JetBrains Mono（数据标签）\n- 大量留白，卡片浅灰底 + 细边框\n\n常见错误：\n- ❌ 往 /workspace/dist/ 里写多个 HTML → 互相覆盖\n- ❌ 每次写同一个 index.html → 覆盖之前所有\n- ✅ 每个任务新建独立目录，一个目录 = 一个网站 = 一个 URL",
+  extra: "<strong>关联 Skill：</strong><code>claude-design-language</code>（设计规范）、<code>knowledge-index-manager</code>（发布后更新索引）"
+},
+
+"ai-daily-report": {
+  tag: "workflow", name: "ai-daily-report",
+  desc: "每日 AI 热点报告自动化流水线",
+  scene: "每天凌晨 3:00 定时触发，或用户要求生成每日 AI 热点报告。",
+  bg: "解决「手动搜索 AI 新闻效率低、容易遗漏重要事件」的问题。通过自动化流水线确保每天都有系统性整理。",
+  flow: [
+    { num: "1", text: "<strong>信息采集</strong> → batch_web_search 搜索优质来源（36氪、机器之心、量子位）" },
+    { num: "2", text: "<strong>深度抓取</strong> → extract_content_from_websites 提取详情，不只看标题" },
+    { num: "3", text: "<strong>筛选标准</strong> → 有具体数字/有实际场景/有对你的影响" },
+    { num: "4", text: "<strong>生成网页</strong> → Apple Design Style，#007AFF，白色背景，SF Pro 字体，极大留白，无 emoji" },
+    { num: "5", text: "<strong>Deploy + 推送</strong> → 飞书只发链接 + 3-5条摘要" }
+  ],
+  prompt: "网页规范：\n- Apple Design: #007AFF / 白色背景 / SF Pro 字体\n- 极大留白、纯文字、无 emoji\n- 每条写「对你的影响」\n\n陷阱：\n- 不要只搜标题，要抓详情\n- 数据要回答「意味着什么」",
+  extra: "<strong>关联 Skill：</strong><code>html-report-delivery</code>（网页生成）、<code>claude-design-language</code>（设计规范）"
+},
+
+"knowledge-web-publication": {
+  tag: "knowledge", name: "knowledge-web-publication",
+  desc: "内容生成后自动网页化与发布的完整流程",
+  scene: "用户完成了一段有价值的内容（策略、分析、框架、研究报告、思考梳理等），需要发布为可访问的网页。",
+  bg: "解决「内容产出后没有标准化发布流程，导致分散在各处无法追溯」的问题。建立从内容到上线的完整闭环。",
+  flow: [
+    { num: "1", text: "<strong>生成 HTML</strong> → 创建 <code>/workspace/{主题}/index.html</code>，按设计规范执行" },
+    { num: "2", text: "<strong>Deploy</strong> → mcp_matrix_deploy 获取 public URL" },
+    { num: "3", text: "<strong>更新索引</strong> → 读取 index.html 和 index.md，在对应分类下添加条目（主题/URL/简介/日期）" },
+    { num: "4", text: "<strong>通知用户</strong> → 飞书只发：链接 + 一句话摘要" }
+  ],
+  prompt: "选择规则：\n- 个人思考、感想、软性内容 → Apple Design Style\n- 投资策略、正式报告、数据分析 → Claude Design Language\n- 不确定时默认 Claude Design Language\n\n文件命名：\n/workspace/\n  知识-links/          # 总索引（固定位置）\n  2026-05-03-长上下文报告/\n    index.html",
+  extra: "<strong>重要：</strong>索引文件路径固定为 <code>/workspace/知识-links/</code>，同步更新 HTML 和 MD 两个文件。<br><br><strong>关联 Skill：</strong><code>knowledge-index-manager</code>（索引结构）、<code>claude-design-language</code>（设计规范）"
+},
+
+"knowledge-index-manager": {
+  tag: "knowledge", name: "knowledge-index-manager",
+  desc: "知识链接索引的维护规范",
+  scene: "需要添加、删除或整理知识库索引时触发。",
+  bg: "建立统一的索引管理规范，确保所有内容可追溯、不重复、不遗漏。Hub 是唯一总入口，索引不单独存在。",
+  flow: [
+    { num: "1", text: "<strong>读取索引</strong> → 读取当前的 index.html 和 index.md" },
+    { num: "2", text: "<strong>添加条目</strong> → 在对应分类下插入：主题/URL/简介/状态/日期" },
+    { num: "3", text: "<strong>保持格式</strong> → 日期倒序（最新在前），同步更新 HTML 和 MD" },
+    { num: "4", text: "<strong>重新 Deploy</strong> → 发布更新后的索引页面" }
+  ],
+  prompt: "分类维度：\n- 投资理财：股票策略、基金、经济分析\n- AI技术：Agent、模型、研究报告\n- 学习方法：记忆、效率、思维框架\n- 工作记录：课程反馈、项目总结\n- 日常思考：感想、随笔、个人总结\n- 技术实现：代码、工具、流程\n\n每条索引字段：\n主题 / 目录 / URL / 状态 / 日期 / 简介",
+  extra: "<strong>重要更新（2026-05-07）：</strong>Hub 是唯一总入口，索引不再单独存在。所有内容通过 Hub 三级导航访问。<br><br><strong>关联 Skill：</strong><code>knowledge-web-publication</code>（发布流程）"
+},
+
+"llm-wiki-compilation": {
+  tag: "knowledge", name: "llm-wiki-compilation",
+  desc: "将 Karpathy LLM Wiki 模式应用于个人知识体系的具体执行流程",
+  scene: "用户将某主题的原始内容发布为网页后，需要进一步提炼为知识实体；或需要对一个领域的知识进行系统化整理时触发。",
+  bg: "解决「内容产出后只是堆积，没有形成可复用的知识网络」的问题。通过编译过程将零散内容转化为结构化知识实体。",
+  flow: [
+    { num: "1", text: "<strong>收集原始内容</strong> → 查看索引中该分类下的所有 URL，读取汇总为语料库" },
+    { num: "2", text: "<strong>提取实体与关系</strong> → 识别核心概念、概念间关系（包含/因果/对比/延伸）、来源" },
+    { num: "3", text: "<strong>生成实体页</strong> → 在 <code>wiki/</code> 子目录生成 overview.md 和各概念实体页" },
+    { num: "4", text: "<strong>生成关联图谱</strong> → 汇总连接关系，识别核心概念、边缘概念、知识空白" }
+  ],
+  prompt: "实体页内容规范：\n# [实体名称]\n\n## 定义\n[一句话精确定义]\n\n## 来源\n- [来源1](链接)\n\n## 相关概念\n- [[相关实体1]]：简要说明关系\n\n## 备注\n[补充说明]",
+  extra: "编译完成后主动做：跨领域连接（联想已有知识）、知识更新（检查新内容是否补充已有实体）、场景化推送（提到某场景时主动调出相关知识）。<br><br><strong>关联 Skill：</strong><code>karpathy-llm-wiki-pattern</code>（原理层）、<code>knowledge-index-manager</code>（编译后更新索引）"
+},
+
+"karpathy-llm-wiki-pattern": {
+  tag: "knowledge", name: "karpathy-llm-wiki-pattern",
+  desc: "Karpathy LLM Wiki 模式——用LLM编译和维护个人知识库",
+  scene: "用户询问 Karpathy 知识管理模式、LLM Wiki 原理、如何构建个人知识图谱时触发。",
+  bg: "核心理念：知识库不是静态仓库，而是动态编译的产物。传统 RAG 每次从原始文档重新检索，知识无法积累。LLM Wiki 一次编译、持续复用，知识随时间复合增长。",
+  flow: [
+    { num: "1", text: "<strong>Ingest（摄入）</strong> → 将原始文档放入 raw/ 目录，支持 PDF/Markdown/HTML/Excel/CSV/图片" },
+    { num: "2", text: "<strong>Compile（编译）</strong> → LLM 读取原始文档 + 现有 wiki，为每个概念生成实体页（含解释/引用/wiki-links）" },
+    { num: "3", text: "<strong>Query（查询）</strong> → 通过 wiki 而非原始文档回答问题，知识已经过提炼和组织" },
+    { num: "4", text: "<strong>Update/Lint（维护）</strong> → 定期运行 linting pass，清理不准确内容、孤立页面，每 20 页运行一次" }
+  ],
+  prompt: "LLM编译提示词模板：\nYou are an expert researcher. Read these papers and compile a personal wiki with entity pages. For each entity page: write a summary with explanation, [[wiki-links]] to related concepts, and any contradictions between sources. Output: separate .md files named by entity.\n\nLinting提示词：\nLint this wiki and address: \n1. Remove inaccurate/unsupported info (conservative)\n2. Remove orphan pages (no incoming links)\n3. Move multi-concept content to separate pages",
+  extra: "三层架构：Layer 1 raw/（原始文档）→ Layer 2 wiki/（LLM生成的实体页）→ Layer 3 knowledge graph（概念间的关联网络）。<br><br><strong>关联 Skill：</strong><code>llm-wiki-compilation</code>（适配版执行流程）"
+},
+
+"skill-extraction-from-conversation": {
+  tag: "knowledge", name: "skill-extraction-from-conversation",
+  desc: "从对话中自动提取思维模式并生成 Skill 的方法论",
+  scene: "对话持续超过5轮且涉及多个相关子问题时，主动触发（不等用户要求）。用户说「总结一下」「形成规范」「做个流程」时触发。",
+  bg: "单次任务做完就忘。思维模式跨任务复用，才值得沉淀。Skill 的来源是「对话过程中反复出现的思维模式」，不是单次任务的解决方案。",
+  flow: [
+    { num: "1", text: "<strong>对话回溯</strong> → 扫描当前对话，记录话题切换点，每个话题中用户让你做了什么事" },
+    { num: "2", text: "<strong>挖掘底层逻辑</strong> → 用户为什么这样做？有没有说过偏好/习惯？能否复用到其他场景？" },
+    { num: "3", text: "<strong>抽象为可复用流程</strong> → 具体操作 → 一般流程；个人偏好 → 显式规则；经验判断 → 约束条件" },
+    { num: "4", text: "<strong>判断是否沉淀</strong> → 该模式出现2次以上/可能适用于未来任务/代表核心价值观" },
+    { num: "5", text: "<strong>命名与结构化</strong> → 动宾结构命名（如 xxx-xxx-xxx），按领域归类，YAML frontmatter + markdown 正文" }
+  ],
+  prompt: "沉淀判断标准（满足任一则沉淀）：\n- 该模式在对话中出现了2次以上\n- 该模式可能适用于用户未来的其他任务\n- 该模式代表用户的核心价值观或做事原则\n\n不满足的：可以在回复末尾提一句「这个可以做规范化吗？」让用户决定",
+  extra: "<strong>核心原则：</strong>Skill 代表的是「用户的思维」，不是「工具的使用方法」。优先沉淀用户明确表达过的偏好和原则。<br><br><strong>关联 Skill：</strong><code>knowledge-web-publication</code>（生成的发布流程）、<code>knowledge-index-manager</code>（生成的索引规范）"
+},
+
+"a-stock-short-term-trading": {
+  tag: "finance", name: "a-stock-short-term-trading",
+  desc: "A股短线交易全流程框架",
+  scene: "询问 A股短线交易策略、需要复盘某只股票的买卖记录、寻求卖出时机判断、讨论 T+1 交易规则时触发。",
+  bg: "建立标准化的选股→买入→卖出流程，用纪律对抗人性弱点，避免情绪化操作导致亏损。",
+  flow: [
+    { num: "1", text: "<strong>选股逻辑</strong> → 热点驱动，只做当前热门领域/主题内的龙头股；正负信号都要收集" },
+    { num: "2", text: "<strong>买入时机</strong> → 当天下午收盘前（≤14:50最佳，≤15:00红线）；单票不超过总资金20%" },
+    { num: "3", text: "<strong>卖出时机</strong> → 次日开盘观察（9:30-10:00）；涨幅达预设止盈位/触发止损/明显滞涨均卖出" },
+    { num: "4", text: "<strong>纪律红线</strong> → 跌破买入价3%无条件卖出；禁止亏了加仓/涨了继续持有/重仓押注" }
+  ],
+  prompt: "纪律红线（绝对执行）：\n- 止损：跌破买入价3%时，无条件卖出。不讨论、不犹豫、不加仓。\n- 止盈：达到预设涨幅后，分批或一次性卖出，不追求卖在最高点。\n- 禁止：亏了加仓拉均价；涨了继续持有等更高；重仓押注单一标的。\n\nT+1规则：当天买、第二天才能卖，不可违背。",
+  extra: "<strong>关联 Skill：</strong><code>hot-sector-signal-collection</code>（选股前的信息收集）、<code>trading-discipline-enforcer</code>（纪律执行与违规处理）、<code>claude-design-language</code>（分析报告设计）"
+},
+
+"hot-sector-signal-collection": {
+  tag: "finance", name: "hot-sector-signal-collection",
+  desc: "A股热点板块信息收集与信号汇总",
+  scene: "用户提出选股需求、需要判断某只股票当前的正负信号、进行每日市场信息追踪、说「帮我看看这个股怎么样」时触发。",
+  bg: "解决「选股时信息收集不全面、只看到利好忽略风险」的问题。通过结构化信号收集，确保决策有充分信息支撑。",
+  flow: [
+    { num: "1", text: "<strong>价格与资金信号</strong> → 当日/近期涨跌幅、成交量变化、主力资金净流入/流出、换手率、技术面是否突破关键均线" },
+    { num: "2", text: "<strong>基本面信号</strong> → 近期业绩公告、财报预期、行业政策利好/利空、公司高管动态、股东增减持" },
+    { num: "3", text: "<strong>市场情绪信号</strong> → 东方财富/同花顺股吧情绪、机构研报评级、财经媒体覆盖频率、社交媒体热度" },
+    { num: "4", text: "<strong>风险信号（负相关）</strong> → 监管函/问询函、大股东减持公告、行业监管收紧、系统性风险" },
+    { num: "5", text: "<strong>汇总输出</strong> → 正向信号/负向信号/情绪判断/操作建议" }
+  ],
+  prompt: "信息来源优先级：\n1. 东方财富（资金流向、公告、股吧）\n2. 雪球（机构观点、用户讨论）\n3. 财联社/36氪/证券时报（突发消息）\n4. 交易所公告（最权威一手信息）\n\n注意：\n- 正负信号都要列，不筛选，先全量收集再判断\n- 情绪判断要区分「短期情绪」和「中长期逻辑」，短线只看短期信号",
+  extra: "<strong>关联 Skill：</strong><code>a-stock-short-term-trading</code>（信号收集后进入交易框架）、<code>trading-discipline-enforcer</code>（信号收集后仍需纪律兜底）"
+},
+
+"trading-discipline-enforcer": {
+  tag: "finance", name: "trading-discipline-enforcer",
+  desc: "A股短线纪律执行与心理防线",
+  scene: "用户持有某只股票出现盈亏、出现「跌了要不要加仓/涨了要不要再等等/亏太多了不想卖」等行为偏差时主动介入。每笔交易结束后触发复盘。",
+  bg: "用规则对抗人性弱点。亏损时大脑高估反弹概率（损失厌恶），盈利时大脑过度自信（近期偏误）。必须用预设纪律打破这个循环。",
+  flow: [
+    { num: "1", text: "<strong>提醒规则</strong> → 指出违反的规则条款，给出理由" },
+    { num: "2", text: "<strong>等待确认</strong> → 等用户确认是否执行规则" },
+    { num: "3", text: "<strong>若坚持违规</strong> → 尊重用户决定，但记录到当日复盘" },
+    { num: "4", text: "<strong>连续违规</strong> → 触发「冷静期」，建议暂停交易1-2个交易日" }
+  ],
+  prompt: "禁止行为清单：\n1. 禁止加仓摊平成本：亏损时大脑会高估反弹概率，这是「损失厌恶+均值回归谬误」的组合陷阱。规则：亏损状态下任何买入都是错的。\n2. 禁止扛单：设定止损线后，触发即卖，不存在「再等等看」。\n3. 禁止过度依赖成本价：当前价格独立判断，与买入价无关。\n4. 禁止情绪化操作：愤怒、兴奋、后悔、恐惧下不操作。\n\n心理防线对照表：\n- 损失厌恶（亏了不想卖）→ 止损线是规则，不是建议\n- 近期偏误（最近涨得好就以为会一直涨）→ 只看当前信号，不看历史\n- 处置效应（小赚就卖，大亏死扛）→ 止盈止损都是规则，对称执行",
+  extra: "<strong>关联 Skill：</strong><code>a-stock-short-term-trading</code>（纪律是交易框架的一部分）、<code>hot-sector-signal-collection</code>（信号收集是纪律执行的前提）"
+},
+
+"course-feedback": {
+  tag: "teaching", name: "course-feedback",
+  desc: "课程反馈写作规范，面向家长",
+  scene: "每次课后给家长写课程反馈时触发。",
+  bg: "解决「课程反馈写得太空洞，家长不知道孩子具体哪里好、哪里需要加强」的问题。用证据驱动，客观具体，不美化不夸大。",
+  flow: [
+    { num: "1", text: "<strong>学生状态</strong> → 情绪、专注度、整体表现，好的差的都写，要有具体行为描述" },
+    { num: "2", text: "<strong>教学知识点</strong> → 这节课讲了什么，家长要知道课上干了什么，不能含糊" },
+    { num: "3", text: "<strong>掌握情况</strong> → 进步的地方（具体写）+ 欠缺的地方（具体写），两者缺一不可" },
+    { num: "4", text: "<strong>后续方向</strong> → 后续需要努力的具体方向，一般2-3点" }
+  ],
+  prompt: "名字代词规则：\n- 3字名字用后2字代称（如 方琢言 → 琢言）\n- 2字名字用全名\n- 「他/她」在名字代称出现1-2次后使用\n- 不要：名字连续出现（油腻）/ 全是「他/她」（生硬）\n\n避免：\n- 「整体不错」「有很大进步」等空洞话\n- 「让家长回家给孩子找题」（老师会布置作业）",
+  extra: "<strong>核心原则：</strong>语气亲切但专业，有情绪价值但不谄媚。结构：证据（具体事实）→ 判断（问题本质）→ 建议（家长能参与的具体动作）。"
+},
+
+"claude-design-language": {
+  tag: "design", name: "claude-design-language",
+  desc: "Claude Design Language — 网页风格规范",
+  scene: "用户说「Claude风格」或「生成网页」时立即使用此规范。此规范优先于其他设计风格。",
+  bg: "为保持所有输出的一致性和品质感，建立统一的设计语言。区别于 Apple Design Style 的蓝白配色，Claude Design Language 使用赤陶色为主调，更具编辑感和个人风格。",
+  flow: [
+    { num: "1", text: "<strong>颜色</strong> → Primary: #C9544E（赤陶色）/ 背景: #FFFFFF / 次级表面: #F7F5F4 / 边框: #E8E5E3 / 文字: #1A1A1A" },
+    { num: "2", text: "<strong>字体</strong> → 标题用 Georgia（衬线）/ 正文用 Inter / 数字/代码用 JetBrains Mono" },
+    { num: "3", text: "<strong>按钮</strong> → 背景 #C9544E，白色文字，border-radius 8px，无阴影；Hover 背景 #A33D35" },
+    { num: "4", text: "<strong>卡片</strong> → 白色背景，1px solid #E8E5E3，border-radius 12px，box-shadow 0 2px 8px rgba(0,0,0,0.04)" },
+    { num: "5", text: "<strong>布局</strong> → 最大宽度 1120px，四周至少 24px 边距，间距层级 8/16/24/32/48/64px" }
+  ],
+  prompt: "核心组件原子：\n- accent-bar：赤陶色 48×3px 强调线\n- card：白色背景网格卡片\n- btn-primary：#C9544E 背景，白色文字，border-radius 8px\n\n风格关键词：\n大量留白、编辑感、赤陶色仅用于点缀（按钮/强调条/分隔条），不大面积铺色。禁止 emoji。",
+  extra: "<strong>优先级说明：</strong>此规范优先于其他设计风格（如 Apple Design Style）。生成网页时默认使用 Claude Design Language，除非用户明确指定其他风格。"
+},
+
+"im-setup": {
+  tag: "im-setup", name: "im-setup",
+  desc: "IM/消息平台连接和配置",
+  scene: "用户要求连接、绑定或配置任何 IM 平台（飞书、微信、Telegram、Discord、Slack、钉钉、企业微信等）时触发。",
+  bg: "建立标准化的多平台连接流程，支持通过环境变量配置或交互式引导（hermes gateway setup）完成连接。",
+  flow: [
+    { num: "1", text: "<strong>索要凭证</strong> → 向用户索要平台凭证（Token / App ID / Secret 等）" },
+    { num: "2", text: "<strong>写入配置</strong> → 将凭证写入 <code>~/.hermes/.env</code>（每行一个 KEY=VALUE）" },
+    { num: "3", text: "<strong>配置访问控制</strong> → 设置白名单或开放访问策略" },
+    { num: "4", text: "<strong>启动 Gateway</strong> → <code>hermes gateway run</code> 或交互式 <code>hermes gateway setup</code>" }
+  ],
+  prompt: "飞书连接：\nFEISHU_APP_ID=cli_xxxxx\nFEISHU_APP_SECRET=your_secret\nFEISHU_DOMAIN=feishu\nFEISHU_CONNECTION_MODE=websocket  # 推荐，无需公网 URL\n\n微信连接：\n需要扫码登录，在 Web 端点击「连接微信」按钮完成绑定。\n\n访问控制三种模式：\n- 开放访问：GATEWAY_ALLOW_ALL_USERS=true\n- 用户白名单：<PLATFORM>_ALLOWED_USERS=id1,id2\n- DM 配对（默认）：新用户收到配对码，管理员审批",
+  extra: "<strong>当前已连接：</strong>飞书 ✓ / 微信 ✓<br><br>快捷方式：运行 <code>hermes gateway setup</code> 可通过交互式引导完成配置。飞书支持 WebSocket 模式（无需公网 URL）。"
+}
+
+};
+
+function showSkill(id) {
+  const s = skills[id];
+  if (!s) return;
+
+  document.getElementById('modalTag').textContent = s.tag;
+  document.getElementById('modalName').textContent = s.name;
+  document.getElementById('modalDesc').textContent = s.desc;
+
+  document.getElementById('modalScene').innerHTML = s.scene;
+  document.getElementById('modalBg').innerHTML = s.bg;
+
+  // Flow
+  const flowEl = document.getElementById('modalFlow');
+  flowEl.innerHTML = s.flow.map(step =>
+    `<div class="flow-step"><div class="flow-num">${step.num}</div><div class="flow-text">${step.text}</div></div>`
+  ).join('');
+
+  document.getElementById('modalPrompt').textContent = s.prompt;
+  document.getElementById('modalExtra').innerHTML = s.extra;
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+</script>
+
+<footer class="footer">
+  <a href="/index.html">Lavendulin Hub</a>
+  <span style="margin:0 8px;">·</span>
+  <span class="year">2026</span>
+</footer>
+</div>
+</body>
+</html>
