@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spec-Driven Development: Over Engineering 陷阱</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #C9544E;
+            --terracotta-light: #D4706A;
+            --bg: #FAFAFA;
+            --card-bg: #FFFFFF;
+            --border: #E5E5E5;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --text-muted: #999999;
+            --code-bg: #F5F5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            min-height: 100vh;
+            padding: 80px 24px 120px;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 64px;
+        }
+
+        .tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--terracotta);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-content {
+            color: var(--text-secondary);
+        }
+
+        .section-content p {
+            margin-bottom: 16px;
+        }
+
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        blockquote {
+            background: var(--card-bg);
+            border-left: 3px solid var(--terracotta);
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        blockquote p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(201, 84, 78, 0.15) 60%);
+            padding: 0 2px;
+            font-weight: 500;
+        }
+
+        .case-study {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            margin: 24px 0;
+        }
+
+        .case-goal {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--terracotta);
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .case-goal span {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .case-results {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .case-result {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .case-result::before {
+            content: "+";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background: rgba(201, 84, 78, 0.1);
+            color: var(--terracotta);
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .arrow {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .table-wrapper {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 24px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            background: var(--code-bg);
+            padding: 14px 20px;
+            text-align: left;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 14px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .prompt-box {
+            background: var(--text-primary);
+            color: #E5E5E5;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .prompt-box .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--terracotta-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .prompt-box .content {
+            color: #CCCCCC;
+        }
+
+        .prompt-box .constraint {
+            color: #AAAAAA;
+            margin-left: 16px;
+            display: block;
+            padding-left: 12px;
+            border-left: 2px solid #333;
+            margin-top: 8px;
+        }
+
+        .prompt-box .constraint.neg {
+            color: var(--terracotta-light);
+        }
+
+        .conclusion {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            margin-top: 48px;
+        }
+
+        .conclusion-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .conclusion p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 48px 16px 80px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body><div style="max-width:680px;margin:0 auto;padding:40px 24px 0;">
+  <a href="/文段解析/index.html" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#9B9B9B;text-decoration:none;font-family:Inter,sans-serif;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+</div>
+
+    <div class="container">
+        <header class="header">
+            <div class="tag">Spec-Driven Development</div>
+            <h1>Spec-Driven Development<br>Over Engineering 陷阱</h1>
+            <p class="subtitle">当任务颗粒度拆得过细且缺乏边界约束时，多 agents 协作容易出现局部最优解陷阱——每个节点都正确，整体却偏离目标。</p>
+        </header>
+
+        <div class="section">
+            <div class="section-title">问题的本质</div>
+            <div class="section-content">
+                <p>不是代码写得烂，而是<span class="highlight">没有人在管全局目标</span>。</p>
+                <p>每个 sub-agent 都是理性行为者：它接到任务「设计文件上传」，按最佳实践推理，引入 repository pattern 是合理的，storage abstraction 是合理的，S3 兼容是合理的——单独看哪个都没错。</p>
+                <p>但原始目标只是「单机上传到本地磁盘」。所有这些抽象层，对这个目标来说全是负债。</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">为什么特别容易发生在多 Agents 场景</div>
+            <div class="section-content">
+                <p>因为没有人同时持有两件事：</p>
+                <blockquote>
+                    <p>知道「要做什么」<br>知道「不做什么」</p>
+                </blockquote>
+                <p>单个 agent 没有约束的情况下，会自然地向「更完整」的解收敛。五个 agent 各自独立收敛，五条路通往五个不同方向。</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">一个高频 Case</div>
+            <div class="case-study">
+                <div class="case-goal">
+                    <span>原始目标</span>
+                    给后台系统增加一个文件上传能力，单机部署，上传到本地磁盘。
+                </div>
+                <div class="case-results">
+                    <div class="case-result">一个 sub-agent 引入 repository pattern</div>
+                    <div class="case-result">一个 sub-agent 设计 storage provider abstraction</div>
+                    <div class="case-result">一个 sub-agent 顺手兼容 S3 / OSS / GCS</div>
+                    <div class="case-result">另一个开始补异步队列和事件系统</div>
+                    <div class="case-result">最后甚至拆出了 upload-sdk</div>
+                </div>
+            </div>
+            <div class="arrow">硬生生干出了一套半成品云存储框架</div>
+            <blockquote>
+                <p>从局部看，哪哪儿都没毛病，还写得挺好，全都是最佳实践——但离原始目标已经十万八千里了。</p>
+            </blockquote>
+        </div>
+
+        <div class="section">
+            <div class="section-title">合不合这个 PR？</div>
+            <div class="section-content">
+                <p><span class="highlight">不合。</span>但不是因为代码质量。</p>
+                <p>是因为这个 PR 解决的是<span class="highlight">一个没有被要求解决的问题</span>，而它带来的代价是：</p>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>代价</th>
+                            <th>影响</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>代码膨胀</td>
+                            <td>后期维护成本非线性增长</td>
+                        </tr>
+                        <tr>
+                            <td>隐式依赖</td>
+                            <td>后续改动需要理解整套抽象层</td>
+                        </tr>
+                        <tr>
+                            <td>半成品 SDK</td>
+                            <td>既然没做完，未来谁来接？</td>
+                        </tr>
+                        <tr>
+                            <td>违反简单性原则</td>
+                            <td>YAGNI — You Aren't Gonna Need It</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <blockquote>
+                <p>你的同事写了一栋漂亮的摩天大楼，地基打在了沙子上。问题是：<strong>需求里根本没有楼</strong>。</p>
+            </blockquote>
+        </div>
+
+        <div class="section">
+            <div class="section-title">真正的问题在哪</div>
+            <div class="section-content">
+                <p>回到源头：是谁给每个 sub-agent 的 prompt？</p>
+                <p>如果 prompt 里写了「设计一个可扩展的文件上传模块」，那 sub-agent 的行为完全符合指令。问题出在指令本身没有约束边界。</p>
+            </div>
+            <div class="prompt-box">
+                <div class="label">正确的 prompt 应该这样写</div>
+                <div class="content">
+                    实现后台文件上传功能，约束如下：
+                    <span class="constraint constraint.neg">不引入 repository pattern</span>
+                    <span class="constraint constraint.neg">不做存储抽象</span>
+                    <span class="constraint constraint.neg">不考虑多云兼容</span>
+                    <span class="constraint constraint.neg">不引入异步队列</span>
+                    <span class="constraint constraint.neg">不上传即可用，不需要 SDK</span>
+                    <br>
+                    <span class="constraint">完成标准：用户能在后台页面上传文件并保存</span>
+                </div>
+            </div>
+            <div class="section-content">
+                <p><span class="highlight">约束比指令重要。不做什么，比做什么更需要显式声明。</span></p>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <div class="conclusion-title">结论</div>
+            <p>这个 PR 是技术债务，不是贡献。正确的做法是打回重写，原点出发，目标导向。</p>
+        </div>
+
+        <footer class="footer">
+            Claude Design Language · 2026
+        </footer>
+    </div>
+</body>
+</html>
