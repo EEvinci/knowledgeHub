@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude code/codex的记忆设计哲学 · 文段解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+.container { max-width: 720px; margin: 0 auto; padding: 72px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 48px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.article-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.summary-box { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0 36px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.content { font-size: 15px; }
+.content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }
+.content h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+.content p { margin-bottom: 16px; color: var(--text); }
+.content ul, .content ol { margin: 0 0 20px 0; padding-left: 20px; }
+.content li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.7; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.content th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px; border-bottom: 2px solid var(--border); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+.content tr:last-child td { border-bottom: none; }
+.content strong { color: var(--text); font-weight: 600; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+.article-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); background: var(--card-bg); }
+.footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/文段解析/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+  <header class="header">
+    <div class="section-label">文段解析 · AI Coding</div>
+    <h1>Claude code/codex的记忆设计哲学</h1>
+    <div class="article-meta">2026-05-07 · 新浪 · Barret 李靖</div>
+  </header>
+  <div class="summary-box">Codex 的设计目标是让 agent 运行得足够久，Claude Code 更偏向可用性。两者代表了不同的 Agent 设计方向：Codex 追求持久性，Claude Code 追求可用性。</div>
+  <div class="content">
+    <h2>最近一直在研究 Codex 和 Claude Code 的记忆设计</h2><p>发现两者的设计哲学和玩法有很大差异。</p><h2>Codex 的设计目标：让 agent 运行得足够久</h2><p>Codex 的设计目标是让一个 agent 运行得足够久，所以它的执行策略偏向于把记忆塞到 prompt 里。</p><p>它的核心文件包括：</p><ul><li>prompt.md（提示词）</li><li>plan.md（计划）</li><li>implement.md（操作手册）</li><li>documentation.md（状态）</li></ul><h2>Claude Code 的设计目标：辅助人类开发者</h2><p>Claude Code 的设计目标更多是辅助人类开发者，强调会话的即时性和灵活性。它不追求让 agent 长时间运行，而是追求每次会话都能产生有效的结果。</p><h2>两种设计哲学的对比</h2><table><thead><tr><th>维度</th><th>Codex</th><th>Claude Code</th></tr></thead><tbody><tr><td>设计目标</td><td>让 agent 运行得足够久</td><td>辅助人类开发者</td></tr><tr><td>记忆策略</td><td>把记忆塞到 prompt 里</td><td>分层记忆系统</td></tr><tr><td>会话模式</td><td>长时间连续运行</td><td>即时会话</td></tr><tr><td>状态持久化</td><td>文件系统</td><td>本地记忆目录</td></tr></tbody></table><h2>关键洞察</h2><p>Agent 的记忆设计不是非此即彼的选择。Codex 和 Claude Code 代表了两种不同的方向：Codex 追求持久性，Claude Code 追求可用性。</p><p>对于日常开发来说，Claude Code 的即时性可能更实用。对于自动化场景，Codex 的持久性更有价值。</p><p>理解这两种设计哲学，可以帮助你更好地选择和使用 AI Coding 工具。</p>
+  </div>
+  <div class="tag-row">
+    <span class="article-tag">Claude Code</span><span class="article-tag">Codex</span><span class="article-tag">记忆设计</span><span class="article-tag">设计哲学</span>
+  </div>
+  <footer class="footer">
+    <a href="/文段解析/index.html">文段解析</a>
+    <span style="margin:0 8px;">·</span>
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
