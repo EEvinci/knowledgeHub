@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>如何让AI进入疯狂工作模式 · 文段解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+.container { max-width: 720px; margin: 0 auto; padding: 72px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 48px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.article-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.summary-box { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0 36px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.content { font-size: 15px; }
+.content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }
+.content h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+.content p { margin-bottom: 16px; color: var(--text); }
+.content ul, .content ol { margin: 0 0 20px 0; padding-left: 20px; }
+.content li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.7; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.content th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px; border-bottom: 2px solid var(--border); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+.content tr:last-child td { border-bottom: none; }
+.content strong { color: var(--text); font-weight: 600; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+.article-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); background: var(--card-bg); }
+.footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/文段解析/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+  <header class="header">
+    <div class="section-label">文段解析 · AI Coding</div>
+    <h1>如何让AI进入疯狂工作模式</h1>
+    <div class="article-meta">2026-05-07 · 微博 · AI Coding</div>
+  </header>
+  <div class="summary-box">让 AI 进入「疯狂工作模式」意味着让 agent 能够长时间独立运行，不需要人类的持续干预。关键要素：明确的目标声明、状态持久化机制、自动化的验证和重试。</div>
+  <div class="content">
+    <h2>如何让 AI 进入疯狂工作模式</h2><p>让 agent 连续工作数小时，不需要你盯着。</p><h2>三个关键要素</h2><h3>1. 明确的目标声明</h3><p>告诉 agent 要做什么，还要告诉它「做到什么程度才算完成」。没有清晰的成功标准，agent 会一直跑下去，永远觉得自己还没做完。</p><h3>2. 状态持久化</h3><p>每隔一段时间，把当前进度写入文件。即使 agent 中断或重启，也能从上次停下的地方继续，而不是从头开始。</p><h3>3. 自动化的验证和重试</h3><p>每个子任务完成后自动运行验证。失败了自动重试，而不是停下来等你来看。验证不通过意味着什么？重试几次之后应该放弃？这都需要提前定义。</p><h2>让 AI 疯狂工作的实际步骤</h2><p><strong>第一步</strong>：把任务拆成 15-30 分钟能完成的小块。太长的话中间容易出问题，太短的话切换开销大。</p><p><strong>第二步</strong>：为每个子任务定义验证标准。不是「写完代码」，而是「代码能通过测试」「不破坏现有功能」「符合代码风格规范」。</p><p><strong>第三步</strong>：设置检查点。每完成一个子任务就记录状态，agent 下次启动时先读检查点。</p><p><strong>第四步</strong>：给 agent 一个「放弃策略」。连续重试 N 次还失败，就记录问题并继续下一个任务，而不是卡死在原地。</p><h2>一个真实的数字</h2><p>一个经过良好设计的 agent，可以连续运行 21 小时不需要人工干预。中间遇到问题自动重试，失败了记录日志继续前进。</p><p>这不是魔法，是工程。</p>
+  </div>
+  <div class="tag-row">
+    <span class="article-tag">AI Coding</span><span class="article-tag">长程任务</span><span class="article-tag">Agent工作模式</span>
+  </div>
+  <footer class="footer">
+    <a href="/文段解析/index.html">文段解析</a>
+    <span style="margin:0 8px;">·</span>
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
