@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 的记忆系统，比想象中初级 · 文段解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+.container { max-width: 720px; margin: 0 auto; padding: 72px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 48px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.article-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.summary-box { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0 36px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.content { font-size: 15px; }
+.content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }
+.content h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+.content p { margin-bottom: 16px; color: var(--text); }
+.content ul, .content ol { margin: 0 0 20px 0; padding-left: 20px; }
+.content li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.7; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.content th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px; border-bottom: 2px solid var(--border); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+.content tr:last-child td { border-bottom: none; }
+.content strong { color: var(--text); font-weight: 600; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+.article-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); background: var(--card-bg); }
+.footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/文段解析/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+  <header class="header">
+    <div class="section-label">文段解析 · AI Coding</div>
+    <h1>Claude Code 的记忆系统，比想象中初级</h1>
+    <div class="article-meta">2026-05-07 · 知乎 · Zilliz · 张晨</div>
+  </header>
+  <div class="summary-box">Claude Code 的记忆系统分为四层：CLAUDE.md 用户约束、Auto Memory 自动笔记、Auto Dream 梦整理、KAIROS 后台守护。核心局限：200行硬上限、纯grep检索、细节易丢失、跨工具不通用。</div>
+  <div class="content">
+    <h2>Claude Code 源码泄漏后，大家都知道了</h2><p>npm 包里多了一个 .map 文件，512,000 行 TypeScript 就这么公开了。研究完它的源码后，我们的结论是：Claude Code 的记忆系统，比想象中初级。</p><p>它确实做了不少工作，分了好几层，甚至搞了一个让 agent 做梦的机制来整理记忆。听起来很高深。但摊开来看，本质上还是在一个 agent 的沙盒里打转，记忆出不去，也活不长。</p><h2>第一层：CLAUDE.md，用户写给 agent 的规矩</h2><p>CLAUDE.md 是一个 Markdown 文件，用户自己写，放在项目根目录下。内容可以是你想让 Claude 记住的任何规矩：代码风格约定、项目架构说明、测试命令、部署流程。</p><p>每次会话开始时，Claude Code 会把这个文件完整加载进 context。文件越短，Claude 遵写得越好。</p><p>它支持三个作用领域：项目级的 CLAUDE.md 放在项目根目录，个人级的放在 ~/.claude/CLAUDE.md，组织级的放在企业配置里。</p><h2>第二层：Auto Memory，agent 自己记笔记</h2><p>Auto Memory 就是干这个的：Claude 在工作中自己判断哪些信息值得记下来，写进一个独立的记忆目录里。</p><p>Claude 会把值得记住的东西分成四类：</p><ul><li>user 类：记录用户的角色和偏好</li><li>feedback 类：记录用户的纠正和确认</li><li>project 类：记录项目相关的决策和背景</li><li>reference 类：记录外部资源的位置</li></ul><p>这些记忆存在 ~/.claude/projects/&lt;项目路径&gt;/memory/ 目录下。每条记忆是一个独立的 Markdown 文件，带 frontmatter 标注类型和描述。</p><p>入口文件是 MEMORY.md，起索引作用，每行不超过 150 个字符，只存指针，不存内容。</p><h2>第三层：Auto Dream，让 agent 做梦整理记忆</h2><p>记忆写入的问题解决了，但跑了十几次会话之后，MEMORY.md 越来越乱。冗余的条目堆积起来就会出现相对时间（昨天、上周）不知道指哪一天。</p><p>Auto Dream 模拟的是人脑在睡眠中做的事：整理和巩固记忆。</p><p>它扫描现有记忆文件，翻阅历史会话记录，找到用户的反馈和反复提到的话题，然后做整合：把相对时间换成绝地日期，合并冗余条目，剔除超时内容，最终把 MEMORY.md 控制在 200 行以内。</p><p>触发条件两个同时满足：距离上次整合超过 24 小时，且积累了 5 次以上新会话。也可以手动输入"dream"触发。</p><h2>第四层：KAIROS，泄露代码里还没上线的野心</h2><p>KAIROS 在源码中出现了超过 150 次。这是一个后台守护进程模式，想把 Claude Code 从被动响应的工具变成主动观察的自治体。</p><p>KAIROS 维护 append-only 的日志文件，持续记录观察、决策和行动。它在固定间隔收到 &lt;tick&gt; 信号，自行决定是该主动做点什么，还是保持安静。</p><p>不过 KAIROS 目前被一个编译时 feature flag 控制，没有出现在任何公开版本里。</p><h2>这套体系的天花板在哪？</h2><p>用过一段时间就会发现几个绕不开的问题：</p><ul><li><strong>200行硬上限</strong>：MEMORY.md 最多 200 行，25KB。项目跑几个月，记忆就开始互相挤压。</li><li><strong>只有 grep 检索</strong>：记忆的查找靠 grep 关键词匹配，没有语义理解。</li><li><strong>细节容易丢</strong>：Auto Memory 记的是 agent 自己觉得重要的东西，粒度很粗。</li><li><strong>层层修补的复杂度</strong>：CLAUDE.md 不够加 Auto Memory，Auto Memory 乱了加 Auto Dream，Dream 不够又搞 KAIROS。每一层都是在补上一层的问题。</li><li><strong>跨工具不通用了</strong>：记忆锁在 Claude Code 一个工具里，换成 OpenCode、Codex CLI，从零开始。</li><li><strong>终究是短期记忆</strong>：不管做不做梦，本质还是会话粒度的东西。</li></ul><p>这不是 Claude Code 的设计失误。单 agent、会话粒度、本地存储，架构走到这里，天花板就在这里。</p>
+  </div>
+  <div class="tag-row">
+    <span class="article-tag">Claude Code</span><span class="article-tag">记忆系统</span><span class="article-tag">AI Coding</span><span class="article-tag">Agent</span>
+  </div>
+  <footer class="footer">
+    <a href="/文段解析/index.html">文段解析</a>
+    <span style="margin:0 8px;">·</span>
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
