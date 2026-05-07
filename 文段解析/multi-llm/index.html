@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>组合不同 LLM 完成任务，会成为必备技能之一 · 文段解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+.container { max-width: 720px; margin: 0 auto; padding: 72px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 48px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.article-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.summary-box { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0 36px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.content { font-size: 15px; }
+.content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }
+.content h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+.content p { margin-bottom: 16px; color: var(--text); }
+.content ul, .content ol { margin: 0 0 20px 0; padding-left: 20px; }
+.content li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.7; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.content th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px; border-bottom: 2px solid var(--border); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+.content tr:last-child td { border-bottom: none; }
+.content strong { color: var(--text); font-weight: 600; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+.article-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); background: var(--card-bg); }
+.footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/文段解析/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+  <header class="header">
+    <div class="section-label">文段解析 · AI Coding</div>
+    <h1>组合不同 LLM 完成任务，会成为必备技能之一</h1>
+    <div class="article-meta">2026-05-07 · 微博 · 多模型协作</div>
+  </header>
+  <div class="summary-box">不同 LLM 有不同的强项：Claude 擅长代码理解和文档，GPT 擅长生成和创意，Haiku 适合快速总结。组合使用比单一模型更高效。</div>
+  <div class="content">
+    <h2>组合不同 LLM 完成任务，会成为必备技能之一</h2><h2>不同 LLM 的强项</h2><ul><li><strong>Claude</strong>：代码理解、项目上下文、快速定位问题</li><li><strong>GPT</strong>：代码生成、创意写作、多轮对话</li><li><strong>Haiku</strong>：快速总结、轻量级任务、价格便宜</li><li><strong>Codex</strong>：长程任务、自主执行、自动化工作流</li></ul><h2>组合的实际案例</h2><p><strong>案例一</strong>：先用 Haiku 总结对话要点，再用 Claude 定位问题，最后用 GPT 生成修复方案。</p><p><strong>案例二</strong>：Codex 负责自动化任务流，Claude 负责代码审查和决策，Haiku 负责通知和记录。</p><h2>为什么不是用一个模型解决所有问题</h2><p>不同任务需要不同的能力。一个模型可能在大多数任务上表现不错，但很少在所有任务上都最优。</p><p>组合使用的好处：</p><ul><li>每个任务用最适合的模型</li><li>成本更低（不是所有任务都需要最强的模型）</li><li>速度更快（Haiku 比 Claude 快很多）</li></ul><h2>即将到来的变化</h2><p>随着多模型协作工具的成熟，「组合 LLM」会变得越来越简单。不久的将来，你可能只需要说「帮我做这件事」，系统自动选择和组合最合适的模型。</p><p>但在那之前，你需要知道不同模型的特点，以及如何让它们协作。</p>
+  </div>
+  <div class="tag-row">
+    <span class="article-tag">Multi-LLM</span><span class="article-tag">模型组合</span><span class="article-tag">AI Coding</span>
+  </div>
+  <footer class="footer">
+    <a href="/文段解析/index.html">文段解析</a>
+    <span style="margin:0 8px;">·</span>
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
