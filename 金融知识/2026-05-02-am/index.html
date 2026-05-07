@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>行为金融学 — 市场的一角</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --c: #C9544E;
+      --c-dark: #A33D35;
+      --c-light: #F7F0EF;
+      --bg: #FFFFFF;
+      --bg-alt: #F7F5F4;
+      --text: #1A1A1A;
+      --text-muted: #6B6B6B;
+      --border: #E8E5E3;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 32px 100px;
+    }
+    .kicker {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .section-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2 {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .card h2 { margin-bottom: 14px; }
+    .card p { font-size: 14px; }
+    .brain-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .brain-cell {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .brain-cell .num {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--c);
+    }
+    .brain-cell .sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .mechanism-list {
+      list-style: none;
+      margin: 0;
+    }
+    .mechanism-list li {
+      position: relative;
+      padding: 12px 0 12px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .mechanism-list li:last-child { border-bottom: none; }
+    .mechanism-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 18px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--c);
+    }
+    .mechanism-list li strong {
+      color: var(--text);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 13px;
+    }
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--c-dark);
+      background: var(--c-light);
+      padding: 3px 10px;
+      letter-spacing: 0.05em;
+    }
+    .quote-block {
+      border-left: 3px solid var(--c);
+      padding: 4px 0 4px 24px;
+      margin: 20px 0;
+    }
+    .quote-block p {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 16px;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .dark-card {
+      background: #1A1A1A;
+      border: none;
+      padding: 40px 36px;
+      margin-bottom: 24px;
+    }
+    .dark-card h2 {
+      color: #FFFFFF;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    .dark-card p { color: rgba(255,255,255,0.65); font-size: 14px; }
+    .dark-card .quote-block p { color: rgba(255,255,255,0.9); }
+    .key-question {
+      background: var(--c-light);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      text-align: center;
+      margin: 24px 0;
+    }
+    .key-question p {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 15px;
+      color: var(--c-dark);
+      font-weight: 600;
+      line-height: 1.6;
+    }
+    .thought-section {
+      padding: 40px 0 0;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+    .thought-section h2 { margin-bottom: 20px; }
+    .thought-section .card { padding: 28px 32px; }
+    .footer-line {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 48px 0 0;
+      border-top: 1px solid var(--border);
+      margin-top: 56px;
+      letter-spacing: 0.05em;
+    }
+    @media (max-width: 600px) {
+      .container { padding: 48px 20px 80px; }
+      h1 { font-size: 30px; }
+      .brain-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<div style="max-width:800px;margin:0 auto;padding:40px 24px 0;">
+  <a href="/金融知识/index.html" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#9B9B9B;text-decoration:none;font-family:Inter,sans-serif;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    金融知识
+  </a>
+</div>
+
+<body>
+
+<div class="container">
+
+  <div class="kicker">每日金融知识</div>
+  <h1>你真的在"理性决策"吗？</h1>
+  <p class="subtitle">行为金融学撕开了市场的一角——传统经济学那个漂亮假设，从根上就错了。</p>
+
+  <div class="section-title">核心机制</div>
+
+  <div class="card">
+    <h2>两套决策系统</h2>
+    <p>心理学研究了几十年，发现人类大脑有两套决策系统——快思考的"系统1"和慢思考的"系统2"。在投资里，系统1几乎永远在主导。</p>
+    <div class="brain-grid">
+      <div class="brain-cell">
+        <div class="num">系统 1</div>
+        <div class="sub">快思考 · 本能驱动<br>主导市场行为</div>
+      </div>
+      <div class="brain-cell">
+        <div class="num">系统 2</div>
+        <div class="sub">慢思考 · 理性分析<br>很少真正激活</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>系统1在市场中的具体表现</h2>
+    <ul class="mechanism-list">
+      <li><strong>多巴胺驱动追涨</strong>股价暴涨时大脑分泌多巴胺，让你产生强烈的买入冲动</li>
+      <li><strong>恐惧驱动杀跌</strong>亏损时杏仁核激活，让你在最不该卖的时候割在底部</li>
+      <li><strong>锚定效应</strong>把十块钱的股票跌到六块误认为"便宜"，锚住的是历史价格而非价值</li>
+      <li><strong>损失厌恶</strong>亏一万块的痛苦远大于赚两万块的快乐，不对称感让人捂单不卖</li>
+    </ul>
+    <div class="tag-row">
+      <span class="tag">这 不是性格缺陷</span>
+      <span class="tag">是进化痕迹</span>
+    </div>
+  </div>
+
+  <div class="dark-card">
+    <h2>塞勒的颠覆性结论</h2>
+    <div class="quote-block">
+      <p>"市场不是一台精密计算机，而是由一群会犯错的普通人组成的生态系统。价格短期内会严重偏离价值，正因为市场里的大多数人并不真的'理性'。"</p>
+    </div>
+    <p style="margin-top: 16px;">这也解释了巴菲特能长期跑赢市场的原因——他不是在和机器博弈，而是在利用人性犯错的规律。</p>
+  </div>
+
+  <div class="section-title">真正的价值</div>
+
+  <div class="card">
+    <h2>理解行为金融学的正确姿势</h2>
+    <p>理解行为金融学不是为了"战胜人性"，因为没有人能真正战胜自己的大脑。</p>
+    <div class="key-question">
+      <p>它的真正价值是：让你在每一次重大决策前，先停下来问自己——<br>"我现在是在用理性分析，还是在被大脑的本能牵着走？"</p>
+    </div>
+    <p>理解行为金融学不是为了"战胜人性"，因为没有人能真正战胜自己的大脑。它的真正价值是：让你在每一次重大决策前，先停下来问自己。</p>
+  </div>
+
+  <div class="thought-section">
+    <div class="section-title">思考题</div>
+    <div class="card">
+      <h2>你上一次"事后看来很明显是冲动"的投资决策</h2>
+      <p>当时是什么感受？</p>
+      <p style="margin-top: 14px;">现在复盘，那次决策更多是被情绪驱动，还是真正基于逻辑分析？</p>
+      <div class="tag-row" style="margin-top: 20px;">
+        <span class="tag">复盘是事后视角</span>
+        <span class="tag">但洞察才有用</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-line">每天一个知识点 · 理解市场真正的运作逻辑</div>
+
+</div>
+
+</body>
+</html>
