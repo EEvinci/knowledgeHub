@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>处置效应：卖掉盈利，死守亏损的本能冲动</title>
+<style>
+:root {
+  --primary: #C9544E;
+  --primary-hover: #A33D35;
+  --bg: #FFFFFF;
+  --surface: #F7F5F4;
+  --border: #E8E5E3;
+  --text: #1A1A1A;
+  --text-secondary: #6B6B6B;
+  --text-muted: #9B9B9B;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
+.accent-bar {
+  width: 48px;
+  height: 3px;
+  background: var(--primary);
+  margin-bottom: 48px;
+}
+.header-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+h2 {
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text);
+  margin-top: 56px;
+  margin-bottom: 24px;
+}
+.subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 64px;
+  line-height: 1.6;
+}
+p {
+  margin-bottom: 20px;
+  color: var(--text);
+}
+p:last-child { margin-bottom: 0; }
+strong { color: var(--text); font-weight: 600; }
+.blockquote {
+  border-left: 3px solid var(--primary);
+  padding: 20px 24px;
+  margin: 40px 0;
+  background: var(--surface);
+  border-radius: 0 8px 8px 0;
+}
+.blockquote p {
+  font-family: Georgia, serif;
+  font-size: 17px;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+.blockquote cite {
+  display: block;
+  margin-top: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: normal;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin: 40px 0;
+}
+.card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--primary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.card p:last-child { margin-bottom: 0; }
+.card .highlight {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.data-row {
+  display: flex;
+  gap: 32px;
+  margin: 32px 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.data-item {
+  flex: 1;
+}
+.data-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.data-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 56px 0;
+}
+.footer-note {
+  margin-top: 64px;
+  padding: 24px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.footer-note-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--primary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.footer-note p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.footer-note p:last-child { margin-bottom: 0; }
+@media (max-width: 600px) {
+  .container { padding: 48px 20px 80px; }
+  h1 { font-size: 30px; }
+  .data-row { flex-direction: column; gap: 16px; }
+}
+</style>
+</head>
+<div style="max-width:800px;margin:0 auto;padding:40px 24px 0;">
+  <a href="/金融知识/index.html" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#9B9B9B;text-decoration:none;font-family:Inter,sans-serif;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    金融知识
+  </a>
+</div>
+
+<body>
+<div class="container">
+  <div class="accent-bar"></div>
+  <div class="header-date">2026.05.06 PM</div>
+  <h1>处置效应：卖掉盈利，死守亏损的本能冲动</h1>
+  <p class="subtitle">为什么你的卖出决策总是错的——以及大脑如何在"获利兑现"中获得虚假的满足感</p>
+
+  <p>上午我们聊了过度自信，今天的话题和它有直接的因果关系。许多交易者在理性层面知道"要止损"，但一旦持仓出现浮盈或浮亏，身体和情绪的反应完全违背了逻辑。这一现象，行为金融学称之为——<strong>处置效应</strong>（Disposition Effect）。</p>
+
+  <h2>什么是处置效应</h2>
+
+  <p>处置效应由Shefrin和Statman于1985年首次系统提出，指投资者倾向于过早卖出账面获利的资产，而长期持有甚至加仓亏损的资产。简单说：<strong>赚钱时拿不住，亏钱时舍不得。</strong></p>
+
+  <p>这与经典的"让利润奔跑、截断亏损"原则完全背道而驰。理论上，专业交易者应该在亏损时果断止损，在盈利时持仓扩大收益；但大多数普通投资者做了相反的事情——他们把赚钱的仓位卖得飞快，把亏损的仓位留到天荒地老。</p>
+
+  <div class="data-row">
+    <div class="data-item">
+      <div class="data-number">60%</div>
+      <div class="data-label">个人投资者卖出盈利股的概率</div>
+    </div>
+    <div class="data-item">
+      <div class="data-number">40%</div>
+      <div class="data-label">个人投资者卖出亏损股的概率</div>
+    </div>
+    <div class="data-item">
+      <div class="data-number">-4.2%</div>
+      <div class="data-label">处置效应造成的年化收益损耗</div>
+    </div>
+  </div>
+
+  <h2>大脑的"账本"在骗你</h2>
+
+  <p>处置效应的根源，是心理学中的<strong>前景理论</strong>（Kahneman & Tversky, 1979）。人们在面对"确定收益"和"潜在损失"时，风险偏好完全不对称：</p>
+
+  <p>当你持有一只盈利10%的股票，大脑自动将其标记为"这笔钱已经是我的了"，卖出行为激活的是"获得感"——你感受到了盈利落袋的快感。这在神经层面是一种奖励，类似收到一笔奖金。</p>
+
+  <p>而当你持有一只亏损10%的股票，卖出意味着承认损失，大脑将这种行为编码为"真实亏损"。为了回避这种痛苦，大脑宁可选择继续持有——因为只要不卖出，就只是"账面亏损"，不是"真实亏损"。这是人类大脑对"损失"的本能规避，痛苦程度是同等收益的两倍左右。</p>
+
+  <div class="blockquote">
+    <p>卖掉盈利的股票，我感觉自己做了正确的事。持有亏损的股票，我告诉自己它总会涨回来的。这两个念头，都是大脑在保护我不受伤害——但它保护的方式，恰恰在伤害我的账户。</p>
+    <cite>— 某个人投资者，事后回顾</cite>
+  </div>
+
+  <h2>三个典型的处置效应场景</h2>
+
+  <div class="card">
+    <div class="card-label">场景一</div>
+    <p class="highlight">涨停板次日，高开低走时卖出</p>
+    <p>持仓涨停后，第二天高开2%后回落。你害怕"到手的利润飞走"，急忙卖出。结果该股随后继续上涨30%。</p>
+    <p>你兑现了小利润，错过了大行情——这正是"过早卖出赢家"的经典剧本。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">场景二</div>
+    <p class="highlight">亏损加仓，试图摊低成本</p>
+    <p>买入后下跌10%，你不甘心，在更低价格加倍买入。"这样涨回来的时候我就回本了"——这是处置效应的变体。</p>
+    <p>问题在于：如果方向判断错误，加仓只会放大亏损，而非降低风险。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">场景三</div>
+    <p class="highlight">设了止损，但不断放宽</p>
+    <p>你原本设了8%的止损线，但当价格触及止损位时，你取消止损，告诉自己"再等等"。然后把止损线改到12%。</p>
+    <p>这是处置效应最隐蔽的形式——不是不设止损，而是心理上不断给亏损仓位"宽限"，直到亏损变得无法承受。</p>
+  </div>
+
+  <h2>如何对抗处置效应</h2>
+
+  <p><strong>第一，建立机械化的卖出规则。</strong>不要依赖情绪做决策，而是在开仓时就设定好卖出触发条件。止盈和止损都是预设的，与当下的盈亏感受无关。执行时唯一要做的，是确认触发条件是否满足，而不是判断"现在感觉如何"。</p>
+
+  <p><strong>第二，把卖出盈利和卖出亏损当成同等重要的动作。</strong>大多数交易者只记录"止损了几次"，却从不统计"过早卖出了几次盈利股"。你需要追踪两类错误：卖出盈利太快，与持有亏损太久，同样都是错误。</p>
+
+  <p><strong>第三，使用"冷静期"机制。</strong>当你有强烈冲动想卖出盈利仓位，或强烈抗拒卖出亏损仓位时，强制等待24小时。这段时间让你的杏仁核从"紧急状态"恢复，理性大脑重新上线。</p>
+
+  <p><strong>第四，重新定义"亏损"的含义。</strong>亏损发生在买入的那一刻，而不是卖出的时候。持仓不卖，亏损依然是真实的账面损失，不会因为你不看而消失。</p>
+
+  <hr class="divider">
+
+  <p>处置效应不是"心态不好"的问题，而是大脑处理损失和收益时的结构性偏差。再理性的交易者，若不刻意设计系统来对抗这种本能，都会在关键时刻被大脑牵着走。</p>
+
+  <p>上午的过度自信让你高估了判断的准确率，下午的处置效应让你在每一个具体决策中背叛自己的计划。两者叠加，正是大多数散户账户持续缩水的核心原因。</p>
+
+  <p>认识到这一点，已经是进步的开始。</p>
+
+  <div class="footer-note">
+    <div class="footer-note-title">延伸阅读</div>
+    <p>Shefrin & Statman, "The Disposition to Sell Winners Too Early and Ride Losers Too Long," Journal of Finance, 1985</p>
+    <p>Kahneman & Tversky, "Prospect Theory: An Analysis of Decision under Risk," Econometrica, 1979</p>
+    <p>Odean, Terrance, "Are Investors Reluctant to Realize Their Losses?" Journal of Finance, 1998</p>
+  </div>
+</div>
+</body>
+</html>
