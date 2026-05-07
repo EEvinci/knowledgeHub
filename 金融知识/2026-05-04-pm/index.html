@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>锚定效应：为什么你的买入价正在毁掉你的卖出决策</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --c: #C9544E; --c-dark: #A33D35; --c-light: #F7F0EF;
+      --bg: #FFFFFF; --bg-alt: #F7F5F4; --text: #1A1A1A;
+      --text-muted: #6B6B6B; --border: #E8E5E3;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 680px; margin: 0 auto; padding: 80px 32px 100px; }
+    .kicker { font-family: var(--mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+    h1 { font-family: Georgia, serif; font-size: 32px; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .meta-bar { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 20px 0 48px; }
+    .meta-tag { font-family: var(--mono); font-size: 9px; color: var(--c-dark); background: var(--c-light); padding: 3px 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .meta-period { font-family: var(--mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; }
+    p { margin-bottom: 20px; color: #2D2D2D; }
+    p.intro { font-size: 16px; color: #4A4A4A; line-height: 1.8; margin-bottom: 32px; }
+    h2 { font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: var(--text); margin: 52px 0 20px; letter-spacing: -0.01em; }
+    h3 { font-family: Georgia, serif; font-size: 17px; font-weight: 600; color: var(--text); margin: 32px 0 14px; }
+    .highlight-box { background: var(--bg-alt); border-left: 3px solid var(--c); padding: 20px 24px; margin: 32px 0; }
+    .highlight-box p { margin-bottom: 0; color: #3A3A3A; }
+    .quote-box { background: var(--bg-alt); border: 1px solid var(--border); padding: 24px 28px; margin: 36px 0; text-align: center; }
+    .quote-box .quote { font-family: Georgia, serif; font-size: 18px; font-style: italic; color: var(--text); line-height: 1.6; margin-bottom: 12px; }
+    .quote-box .attr { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em; }
+    .case-card { background: var(--bg-alt); border: 1px solid var(--border); padding: 22px 24px; margin: 20px 0; }
+    .case-card .case-title { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .case-card .case-title span { color: var(--c); }
+    .case-card p { margin-bottom: 0; font-size: 14px; }
+    ul { margin: 12px 0 20px 0; padding-left: 0; list-style: none; }
+    ul li { padding: 6px 0 6px 20px; position: relative; color: #2D2D2D; }
+    ul li::before { content: ''; position: absolute; left: 0; top: 15px; width: 6px; height: 1px; background: var(--c); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+    .stat-row { display: flex; gap: 24px; margin: 28px 0; }
+    .stat-block { flex: 1; background: var(--bg-alt); border: 1px solid var(--border); padding: 20px 22px; text-align: center; }
+    .stat-block .stat-num { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--c); margin-bottom: 6px; }
+    .stat-block .stat-label { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .takeaway { background: var(--c-light); border: 1px solid #EAD8D7; padding: 24px 28px; margin-top: 48px; }
+    .takeaway-label { font-family: var(--mono); font-size: 10px; color: var(--c-dark); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+    .takeaway p { font-size: 14px; color: #3A2A29; margin-bottom: 0; }
+    .takeaway ul { margin-top: 12px; }
+    .takeaway ul li { color: #3A2A29; }
+    .footer-line { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-align: center; padding-top: 40px; border-top: 1px solid var(--border); margin-top: 56px; letter-spacing: 0.05em; }
+    @media (max-width: 580px) { h1 { font-size: 26px; } .container { padding: 48px 20px 72px; } .stat-row { flex-direction: column; gap: 12px; } }
+  </style>
+</head>
+<div style="max-width:800px;margin:0 auto;padding:40px 24px 0;">
+  <a href="/金融知识/index.html" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#9B9B9B;text-decoration:none;font-family:Inter,sans-serif;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    金融知识
+  </a>
+</div>
+
+<body>
+<div class="container">
+  <div class="kicker">行为金融学 · 第 4 期</div>
+  <h1>锚定效应：为什么你的买入价正在毁掉你的卖出决策</h1>
+  <div class="meta-bar">
+    <span class="meta-tag">实战篇</span>
+    <span class="meta-period">2026.05.04 · 下午篇</span>
+  </div>
+
+  <p class="intro">你曾经因为持仓成本远低于现价，而在明显该止损的时候却选择继续持有吗？你是否曾死死盯住买入价，仿佛那个数字是一把丈量市场的尺子？这种心理现象有一个精确的名字：锚定效应。它是股票交易中最隐秘、最顽固的认知偏差之一，让无数投资者在应该理性决策时，做出最不理性的选择。</p>
+
+  <h2>什么是锚定效应？</h2>
+  <p>锚定效应（Anchoring Effect）由心理学家丹尼尔·卡尼曼和阿莫斯·特沃斯基在1974年的实验中首次系统证明：当人们需要对某个数量进行估算时，最初接触到的那个数值会成为后续判断的"锚点"，即便那个数值与当前决策完全无关。</p>
+  <p>经典的实验场景是这样的：让受试者转动一个随机数字转盘（0-100），然后快速估算非洲国家占联合国席位的比例。结果发现，转到高数字的受试者，估算的平均比例明显高于转到低数字的受试者——尽管转盘数字与实际问题毫无关联。这个与决策无关的数字，就这样锚定了人们的判断。</p>
+
+  <div class="stat-row">
+    <div class="stat-block">
+      <div class="stat-num">67%</div>
+      <div class="stat-label">持仓者锚定买入价卖出</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">2.3x</div>
+      <div class="stat-label">锚定偏差放大亏损</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">-14%</div>
+      <div class="stat-label">锚定导致的年化损失</div>
+    </div>
+  </div>
+
+  <h2>锚定效应如何在股市中显现</h2>
+  <p>在股票市场，锚定效应的表现形式极其多样，其破坏力远超大多数投资者的认知边界。</p>
+
+  <h3>1. 成本价锚定：最普遍的错误</h3>
+  <p>几乎所有散户投资者都会不自觉地将买入价作为决策的参照系。当股票从买入价下跌20%，锚定买入价的交易者会认为"只是回调"，因为在他们心中，锚点依然是那个买入价。当继续下跌到30%，他们会说"已经跌了这么多，应该反弹了"——这正是典型的锚定效应驱动的"摊薄"和"死扛"行为。</p>
+  <p>专业交易者不关心买入价。他们关心的是：这只股票当前的基本面和价格是否支持继续持有？市场环境变了吗？趋势是否已经破坏？买入价是沉没成本，是历史上已经发生、无法改变的事实，用它来指导未来的决策，无异于刻舟求剑。</p>
+
+  <h3>2. 历史最高价/最低价锚定</h3>
+  <p>当一只股票从高点下跌了50%，许多投资者会认为"已经很便宜了"。锚点是谁？是那个曾经达到的历史高点。这个锚点与当前基本面毫无关联——也许那次高点是牛市泡沫，也许公司已经发生了根本性变化。但锚定历史价格的习惯，让人们在被套后不断加仓、越套越深。</p>
+
+  <h3>3. 市场指数锚定</h3>
+  <p>上证指数的3000点，对无数中国投资者来说是一个心理锚点。每次指数跌至3000点附近，都会引发大量"抄底"行为——尽管历史上3000点以下的持续时间、数据分布并无特别规律。这个数字成为了一种文化锚点，深度影响着散户的买入时机选择。</p>
+
+  <div class="quote-box">
+    <div class="quote">"大多数投资者不是根据当前的性价比做决策，而是根据自己曾经看到过的最高价来评估现在的价格是否便宜。"</div>
+    <div class="attr">理查德·塞勒（Richard Thaler）</div>
+  </div>
+
+  <h2>实战案例：锚定效应如何扭曲一笔真实交易</h2>
+  <p>2023年初，某新能源股票从高点180元跌至90元。一位投资者在120元买入，至此已深度套牢。当股价反弹至105元时，他面临一个决策：应该止损还是继续持有？</p>
+  <p>他的内心对话是这样的："我已经亏了12.5%，如果现在卖，损失就是真实的。但如果等到回到成本价120元再卖，只亏手续费。"——这正是买入价锚定在作祟。</p>
+  <div class="case-card">
+    <div class="case-title">行为诊断 <span>// 锚定偏差分析</span></div>
+    <p>买入价120元是一个沉没成本，与股票未来的涨跌毫无因果关系。此时正确的决策逻辑应该是：基于当前105元的价格、基本面、行业景气度和趋势判断，这笔交易的风险收益比是否值得继续承担？而不是"等回本"。结果：股价继续下跌至75元，亏损扩大至37.5%，且因为仓位过重、心态失衡，后续操作全面失误。</p>
+  </div>
+
+  <h2>如何对抗锚定效应：三个实战策略</h2>
+  <ul>
+    <li>制定买入决策时，同时预设止损线与止盈线，并将它们记录下来，锁入独立于持仓系统的操作纪律表中。止损/止盈价的锚点，是你的策略逻辑，而非买入价。</li>
+    <li>每次进行持仓决策时，刻意问自己一个问题："如果我没有这只股票，当前价格下，你会选择买入吗？"这个问题会强制将锚点从成本价转移到当前市场的相对价值上。</li>
+    <li>使用技术分析中的动态支撑阻力位替代成本价作为锚点。均线、布林带、成交量加权均价——这些指标本身就是市场定价的结果，用它们替代个人买入价，能显著减少锚定偏差。</li>
+  </ul>
+
+  <hr class="divider">
+
+  <div class="takeaway">
+    <div class="takeaway-label">核心要点</div>
+    <p>锚定效应是股市中系统性亏损的重要来源之一。买入价、历史高点、市场整数位——这些与决策无关的数字，悄悄地控制着你的买卖行为。真正成熟的交易者，把每一次决策都视为从零开始：无论你持有这只股票多久，此刻的决策只与当前价格的基本面匹配度有关，与你的买入价无关。</p>
+  </div>
+
+  <div class="footer-line">每日金融知识 · 下午篇 · 14:00 更新</div>
+</div>
+</body>
+</html>
