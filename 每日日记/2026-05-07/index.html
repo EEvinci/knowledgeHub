@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日日记 | 2026年5月7日</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+    .container { max-width: 680px; margin: 0 auto; padding: 64px 40px 120px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+    .back-link:hover { color: var(--primary); text-decoration: none; }
+    .back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+    h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 30px; font-weight: 600; line-height: 1.25; margin-bottom: 8px; }
+    .subtitle { font-size: 13px; color: var(--text-muted); padding-bottom: 32px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+    .content { font-size: 15px; color: var(--text-secondary); line-height: 1.9; }
+    .content p { margin-bottom: 20px; }
+    .content p:last-child { margin-bottom: 0; }
+    .content strong { color: var(--text); font-weight: 500; }
+    .footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+    .footer a { color: var(--text-muted); text-decoration: none; }
+    .footer a:hover { color: var(--primary); }
+    .footer .year { color: var(--primary); font-family: Georgia, serif; }
+    @media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+  </style>
+</head>
+<body>
+<div style="max-width:680px;margin:0 auto;padding:40px 24px 0;">
+  <a href="/每日日记/index.html" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#9B9B9B;text-decoration:none;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    每日日记
+  </a>
+</div>
+<div class="container">
+  <div class="kicker">2026年05月07日</div>
+  <h1>多 agents 协作的边界问题</h1>
+  <p class="subtitle">每日感想 · 持续记录</p>
+
+  <div class="content">
+    <p>今天在飞书上读到一段关于 Spec-Driven Development 的讨论，讲的是多 agents 协作时特别容易出现 over engineering 的问题。原文的 case 很典型：需求只是「给后台加一个文件上传」，结果引入了 repository pattern、storage abstraction、S3 兼容、异步队列、upload-sdk——从局部看哪哪儿都没毛病，离原始目标十万八千里。</p>
+
+    <p>让我想得比较多的不是 over engineering 本身，而是这个现象背后的结构性原因：<strong>每个 sub-agent 都是局部最优行为者，它只持有「做什么」，不持有「不做什么」。</strong>当没有人同时持有约束和目标时，每个节点都会向「更完整」的解收敛——因为在局部视角下，抽象层、完善度、扩展性都是好的。</p>
+
+    <p>有意思的是，这个问题在人类团队协作中同样存在，只是人类的沟通成本让这个问题不那么容易失控。多 agents 场景下，每个 agent 的推理成本极低，「想一下」几乎是免费的，于是这个倾向被极大放大了。</p>
+
+    <p>一个不成熟的解法是：在 prompt 里显式声明「不做什么」。约束比指令重要——这个道理在 spec 设计层面是成立的。另一个思路是把「验收标准」前置，而不是把「实现路径」前置：先定义「怎么算完成」，再让 agents 自己推导路径。这样至少能保证最终产出不会太离谱。</p>
+  </div>
+
+  <footer class="footer">
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
