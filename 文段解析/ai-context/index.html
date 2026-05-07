@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>构建有效的工作上下文，让AI参与决策 · 文段解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+.container { max-width: 720px; margin: 0 auto; padding: 72px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 48px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.article-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.summary-box { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0 36px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.content { font-size: 15px; }
+.content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }
+.content h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+.content p { margin-bottom: 16px; color: var(--text); }
+.content ul, .content ol { margin: 0 0 20px 0; padding-left: 20px; }
+.content li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.7; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.content th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px; border-bottom: 2px solid var(--border); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+.content tr:last-child td { border-bottom: none; }
+.content strong { color: var(--text); font-weight: 600; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+.article-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); background: var(--card-bg); }
+.footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/文段解析/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+  <header class="header">
+    <div class="section-label">文段解析 · AI Coding</div>
+    <h1>构建有效的工作上下文，让AI参与决策</h1>
+    <div class="article-meta">2026-05-07 · 微博 · AI Coding</div>
+  </header>
+  <div class="summary-box">让 AI 参与决策的前提是给它足够的工作上下文。关键要素：项目结构、历史决策、当前状态、约束条件。没有这些，AI 的判断就是空中楼阁。</div>
+  <div class="content">
+    <h2>构建有效的工作上下文，让 AI 参与决策</h2><p>不是让 AI 替你做决定，而是让它有足够的信息来帮你做更好的决定。</p><h2>工作上下文的四个层次</h2><h3>1. 项目结构</h3><p>代码库的组织方式、模块之间的关系、入口点在哪里。没有这个，AI 连项目长什么样都不知道。</p><h3>2. 历史决策</h3><p>为什么选择了这个技术栈？为什么重构了这个模块？这些决策背后的原因，比代码本身更重要。</p><h3>3. 当前状态</h3><p>现在在做什么？遇到了什么问题？已经尝试过什么解决方案？</p><h3>4. 约束条件</h3><p>什么是不能改的？什么是优先的？什么是必须遵守的？</p><h2>让 AI 参与决策的两种方式</h2><p><strong>方式一</strong>：直接问。「这个重构方案 A 和方案 B，哪个更符合我们的需求？」</p><p><strong>方式二</strong>：让 AI 自己提。「帮我分析一下这两个方案，列出利弊，最后给出建议。」</p><p>后者更好，因为它迫使 AI 做分析，而不是直接给结论。</p><h2>一个反例</h2><p>「帮我看看这个代码有什么问题」——没有上下文，AI 只能泛泛而谈。</p><p>「这个模块在处理高并发时有性能问题，帮我看看怎么优化」——有上下文，AI 能给出具体可行的建议。</p><p>差别在于你是否告诉了 AI「什么是真正的问题」。</p>
+  </div>
+  <div class="tag-row">
+    <span class="article-tag">AI Coding</span><span class="article-tag">上下文管理</span><span class="article-tag">决策参与</span>
+  </div>
+  <footer class="footer">
+    <a href="/文段解析/index.html">文段解析</a>
+    <span style="margin:0 8px;">·</span>
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
