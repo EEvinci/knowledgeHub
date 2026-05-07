@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>让AI输出效果提升五倍 · 文段解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+.container { max-width: 720px; margin: 0 auto; padding: 72px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 48px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.article-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.summary-box { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0 36px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.content { font-size: 15px; }
+.content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }
+.content h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+.content p { margin-bottom: 16px; color: var(--text); }
+.content ul, .content ol { margin: 0 0 20px 0; padding-left: 20px; }
+.content li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.7; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.content th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px; border-bottom: 2px solid var(--border); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+.content tr:last-child td { border-bottom: none; }
+.content strong { color: var(--text); font-weight: 600; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+.article-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); background: var(--card-bg); }
+.footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/文段解析/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+  <header class="header">
+    <div class="section-label">文段解析 · AI Coding</div>
+    <h1>让AI输出效果提升五倍</h1>
+    <div class="article-meta">2026-05-07 · 微博 · AI Coding</div>
+  </header>
+  <div class="summary-box">提升 AI 输出效果的五个关键：角色设定、上下文构建、约束声明、示例提供、分步引导。不是越多越好，而是精准。</div>
+  <div class="content">
+    <h2>让 AI 输出效果提升五倍</h2><p>不是让它跑得更快，而是让它每次输出都更有用。</p><h2>五个关键要素</h2><h3>1. 角色设定</h3><p>「你是资深后端工程师，熟悉 Go 和 React」比「帮我写代码」效果好得多。角色决定模型调用的知识范围和表达方式。</p><h3>2. 上下文构建</h3><p>把相关的代码、文档、历史讨论提供给 AI。不是让 AI 猜，而是给它足够的信息来做出正确的判断。</p><h3>3. 约束声明</h3><p>明确告诉 AI 什么是不能做的。「不要引入新的依赖」「测试必须通过」「保持现有的代码风格」——约束越具体，输出越可用。</p><h3>4. 示例提供</h3><p>一个好的示例胜过千言万语。不说「代码要专业」，而是给出「专业代码长这样」的示例。</p><h3>5. 分步引导</h3><p>「帮我重构整个项目」vs「第一步：识别需要重构的模块；第二步：逐一重构并验证」——后者更可能得到可用的结果。</p><h2>一个反直觉的发现</h2><p>不是信息越多越好。当上下文超过一定量之后，模型开始「遗忘」关键信息。把最重要的信息放在开头和结尾——这就是所谓的「首位效应」和「近因效应」。</p><h2>效果提升五倍的真实含义</h2><p>不是 AI 突然变聪明了，而是你学会了怎么跟它说话。好的提示词不是艺术，是可学习的技能。</p>
+  </div>
+  <div class="tag-row">
+    <span class="article-tag">AI Coding</span><span class="article-tag">提示词优化</span><span class="article-tag">输出质量</span>
+  </div>
+  <footer class="footer">
+    <a href="/文段解析/index.html">文段解析</a>
+    <span style="margin:0 8px;">·</span>
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
