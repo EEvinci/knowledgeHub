@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI时代的软件开发速度 · 文段解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary: #C9544E; --primary-light: rgba(201,84,78,0.08); --bg: #FAFAFA; --card-bg: #FFFFFF; --border: #E8E5E3; --text: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #9B9B9B; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 15px; }
+.container { max-width: 720px; margin: 0 auto; padding: 72px 40px 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 150ms; }
+.back-link:hover { color: var(--primary); text-decoration: none; }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.header { margin-bottom: 48px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 12px; }
+.article-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.summary-box { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0 36px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.content { font-size: 15px; }
+.content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }
+.content h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+.content p { margin-bottom: 16px; color: var(--text); }
+.content ul, .content ol { margin: 0 0 20px 0; padding-left: 20px; }
+.content li { margin-bottom: 8px; color: var(--text-secondary); line-height: 1.7; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.content th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px; border-bottom: 2px solid var(--border); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); }
+.content tr:last-child td { border-bottom: none; }
+.content strong { color: var(--text); font-weight: 600; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+.article-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); background: var(--card-bg); }
+.footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
+.footer a { color: var(--text-muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.footer .year { color: var(--primary); font-family: Georgia, serif; }
+@media (max-width: 640px) { .container { padding: 40px 20px 80px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/文段解析/index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    文段解析
+  </a>
+  <header class="header">
+    <div class="section-label">文段解析 · AI Coding</div>
+    <h1>AI时代的软件开发速度</h1>
+    <div class="article-meta">2026-05-07 · 36氪 · Harness Engineering 解读</div>
+  </header>
+  <div class="summary-box">Harness Engineering 是一套让 Coding Agent 可靠完成长程任务的运行机制。核心设计：任务拆解、并行执行、File As Progress 状态持久化、多层重试。</div>
+  <div class="content">
+    <h2>核心问题</h2><p>Coding Agent 处理目标明确、规模可控的任务很成熟，但面对上千文件的批量迁移任务，会遇到上下文耗尽、中断无法恢复、规模放大后行为不可控等问题。</p><h2>Harness Engineering 的失败经验</h2><h3>Agent 的执行路径不完全相同</h3><p>即使给了相同的 prompt 以及明确的步骤，Agent 的执行路径不完全相同。有时候 Agent 跑着跑着忘了同步代码；有时候同步代码的目标路径错了，覆盖了其他 Agent。</p><p>并发执行带来不确定性。多个 Agent 同步做任务，系统变得复杂。共享资源竞争、相互等待、死锁问题。</p><h3>Agent 容易陷入循环</h3><p>当 Agent 发现自己之前的计划不可行时，它会调整计划并继续执行。但问题在于，Agent 可能陷入一个循环：计划 -> 失败 -> 调整计划 -> 失败 -> 调整计划 -> 失败……</p><p>当 Agent 陷入循环时，它会消耗大量 token，却没有产生有效的结果。</p><h3>长程任务的代价</h3><p>一个长程 Agent 任务可能涉及数千个步骤。Token 成本会迅速增加。如果 Agent 在某一步卡住，重新启动可能需要从头开始，导致大量工作被浪费。</p><h2>核心设计</h2><h3>File As Progress：让状态持久化</h3><p>把每个任务的中间状态写入文件。下次启动时，Agent 先读取这些文件，恢复之前的进度，然后继续执行。不再依赖 Agent 的记忆，而是依赖文件的确定性。</p><h3>任务拆解与并行执行</h3><p>把大任务拆成小任务，每个子任务独立执行。并行执行可以提高效率，但需要处理好任务之间的依赖关系。</p><h3>多层重试机制</h3><p>Agent 在执行任务时可能会遇到各种错误。有些错误是暂时的（如网络问题），有些是永久的（如代码本身有问题）。多层重试机制让 Agent 能够区分这些错误，并采取不同的处理方式。</p><h2>关键教训</h2><ul><li><strong>给 Agent 明确的约束</strong>：任务边界和不做什么的声明至关重要。</li><li><strong>Agent 需要人类的判断力</strong>：Agent 擅长执行，但判断力需要人类提供。</li><li><strong>状态持久化是关键</strong>：长程任务的中断和恢复能力决定了 Agent 的可靠性。</li></ul>
+  </div>
+  <div class="tag-row">
+    <span class="article-tag">AI Coding</span><span class="article-tag">Harness Engineering</span><span class="article-tag">长程任务</span><span class="article-tag">Agent</span>
+  </div>
+  <footer class="footer">
+    <a href="/文段解析/index.html">文段解析</a>
+    <span style="margin:0 8px;">·</span>
+    <a href="/index.html">Lavendulin Hub</a>
+    <span style="margin:0 8px;">·</span>
+    <span class="year">2026</span>
+  </footer>
+</div>
+</body>
+</html>
